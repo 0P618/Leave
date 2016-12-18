@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </android.support.v4.view.ViewPager>
+
+    <RadioGroup
+        android:id="@+id/rg_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_leave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_leave"
+            android:gravity="center"
+            android:padding="@dimen/little_space"
+            android:text="请假"
+            android:textColor="@drawable/tab_text_color_selector" />
+
+        <RadioButton
+            android:id="@+id/rb_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_news"
+            android:gravity="center"
+            android:padding="@dimen/little_space"
+            android:text="院新闻"
+            android:textColor="@drawable/tab_text_color_selector" />
+
+        <RadioButton
+            android:id="@+id/rb_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_progress"
+            android:gravity="center"
+            android:padding="@dimen/little_space"
+            android:text="进度"
+            android:textColor="@drawable/tab_text_color_selector" />
+
+        <RadioButton
+            android:id="@+id/rb_my"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_my"
+            android:gravity="center"
+            android:padding="@dimen/little_space"
+            android:text="我的"
+            android:textColor="@drawable/tab_text_color_selector" />
+    </RadioGroup>
+
+</LinearLayout>
