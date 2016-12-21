@@ -1,7 +1,9 @@
-package com.goldenratio.leave.ui.fragment;
+package com.goldenratio.leave.ui.activity;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.util.MD5Util;
 import com.goldenratio.leave.util.SharedPreferenceUtil;
+import com.goldenratio.leave.util.StatusBarUtil;
 
 import java.util.ArrayList;
 
@@ -34,12 +37,15 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
     private ImageView mIvPwdState;
     private CheckBox mCbLoginState;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
+        StatusBarUtil.setStatusBarColor(this, true, R.color.layout_default_bg_color, true);
     }
+
 
     private void initView() {
         findViewById(R.id.iv_close).setOnClickListener(this);

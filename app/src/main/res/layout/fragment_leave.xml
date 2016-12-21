@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#F0EFF5">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0EFF5"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/ll_title"
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="请假"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/title_text_size"/>
+            android:textSize="@dimen/title_text_size" />
     </LinearLayout>
 
     <RelativeLayout
@@ -36,7 +37,7 @@
             android:gravity="left"
             android:text="请假类型"
             android:textColor="#000"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_type"
@@ -44,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:text="请选择"/>
+            android:text="请选择" />
 
     </RelativeLayout>
 
@@ -63,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:text="请选择"/>
+            android:text="请选择" />
 
         <TextView
             android:id="@+id/textView"
@@ -76,7 +77,7 @@
             android:gravity="left"
             android:text="开始时间"
             android:textColor="#000"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
@@ -96,7 +97,7 @@
             android:gravity="left"
             android:text="结束时间"
             android:textColor="#000"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_end_time"
@@ -104,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:text="请选择"/>
+            android:text="请选择" />
 
     </RelativeLayout>
 
@@ -128,7 +129,7 @@
             android:hint="请输入请假天数"
             android:inputType="phone"
             android:maxLength="3"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_days"
@@ -139,7 +140,7 @@
             android:layout_alignParentTop="true"
             android:text="请假天数"
             android:textColor="#000"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <TextView
@@ -151,7 +152,7 @@
         android:gravity="center"
         android:text="请假事由"
         android:textColor="#FF8C00"
-        android:textSize="13sp"/>
+        android:textSize="13sp" />
 
     <EditText
         android:id="@+id/et_why"
@@ -167,7 +168,7 @@
         android:maxLines="5"
         android:padding="@dimen/normal_space"
         android:textColor="@color/black"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/btn_submit"
@@ -179,6 +180,6 @@
         android:background="@drawable/default_fill_big"
         android:text="提交"
         android:textColor="@color/white"
-        android:textSize="19sp"/>
+        android:textSize="19sp" />
 
 </RelativeLayout>

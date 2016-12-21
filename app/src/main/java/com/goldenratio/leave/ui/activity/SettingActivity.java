@@ -1,4 +1,4 @@
-package com.goldenratio.leave.ui.fragment;
+package com.goldenratio.leave.ui.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.util.AppUtil;
 import com.goldenratio.leave.util.SharedPreferenceUtil;
+import com.goldenratio.leave.util.StatusBarUtil;
 
 /**
  * Created by Kiuber on 2016/12/21.
@@ -20,6 +21,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         initView();
+        StatusBarUtil.setStatusBarColor(this, true, R.color.colorPrimary, false);
     }
 
     private void initView() {

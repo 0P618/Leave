@@ -11,8 +11,8 @@ import com.goldenratio.leave.R;
 import com.goldenratio.leave.adapter.MyFragmentPagerAdapter;
 import com.goldenratio.leave.ui.fragment.LeaveFragment;
 import com.goldenratio.leave.ui.fragment.MyFragment;
-import com.goldenratio.leave.ui.fragment.NewsFragment;
 import com.goldenratio.leave.ui.fragment.ProgressFragment;
+import com.goldenratio.leave.util.StatusBarUtil;
 
 import java.util.ArrayList;
 
@@ -68,15 +68,18 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.rb_leave:
+                StatusBarUtil.setStatusBarColor(this, true, R.color.colorPrimary, false);
                 mVpContent.setCurrentItem(0);
                 break;
 //            case R.id.rb_news:
 //                mVpContent.setCurrentItem(1);
 //                break;
             case R.id.rb_progress:
+                StatusBarUtil.setStatusBarColor(this, true, R.color.colorPrimary, false);
                 mVpContent.setCurrentItem(1);
                 break;
             case R.id.rb_my:
+                StatusBarUtil.setStatusBarColor(this, true, R.color.colorSecondary, false);
                 mVpContent.setCurrentItem(2);
                 break;
         }
