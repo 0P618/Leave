@@ -7,13 +7,14 @@ import android.widget.TextView;
 
 import com.goldenratio.leave.R;
 
-public class GetFackActivity extends AppCompatActivity {
+public class GetLeaveActivity extends AppCompatActivity {
 
     private TextView mName;
     private TextView mClassName;
     private TextView msTime;
     private TextView meTime;
     private TextView mContent;
+    private TextView mIsSuccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class GetFackActivity extends AppCompatActivity {
         msTime.setText("开始时间：" + intent.getStringExtra("Stime"));
         meTime.setText("结束时间：" + intent.getStringExtra("Etime"));
         mContent.setText("详情：" + intent.getStringExtra("context"));
+        mIsSuccess.setText("审核情况：" + intent.getStringExtra("isSuccess"));
     }
 
     private void initView() {
@@ -38,5 +40,6 @@ public class GetFackActivity extends AppCompatActivity {
         msTime = (TextView) findViewById(R.id.sTime);
         meTime = (TextView) findViewById(R.id.eTime);
         mContent = (TextView) findViewById(R.id.content);
+        mIsSuccess = (TextView) findViewById(R.id.isTrue);
     }
 }

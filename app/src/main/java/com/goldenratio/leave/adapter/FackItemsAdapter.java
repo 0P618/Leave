@@ -5,10 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.goldenratio.leave.R;
-import com.goldenratio.leave.bean.Leave;
+import com.goldenratio.leave.bean.LeaveBean;
 
 import java.util.List;
 
@@ -18,13 +19,15 @@ import java.util.List;
 
 public class FackItemsAdapter extends BaseAdapter {
 
-    private List<Leave> mLeaveList;
+    private List<LeaveBean> mLeaveList;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
+    private boolean isNow;
 
-    public FackItemsAdapter(Context context,List<Leave> list){
+    public FackItemsAdapter(Context context,List<LeaveBean> list,boolean flag){
         mContext = context;
         mLeaveList = list;
+        isNow = flag;
         mLayoutInflater = LayoutInflater.from(context);
     }
 
@@ -69,6 +72,11 @@ public class FackItemsAdapter extends BaseAdapter {
             mStartTime = (TextView) view.findViewById(R.id.startTime);
             mEndTime = (TextView) view.findViewById(R.id.endTime);
             mType = (TextView) view.findViewById(R.id.type);
+
+            if (!isNow){
+                LinearLayout layout = (LinearLayout) view.findViewById(R.id.lineItems);
+                layout.setBackgroundResource(R.drawable.fack_not_items_bg);
+            }
         }
 
         public void initData(int position) {

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:paddingTop="30dp">
+        android:paddingTop="25dp">
 
         <TextView
             android:id="@+id/name"
@@ -26,6 +26,14 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="软件开发"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/isTrue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="已通过"
             android:textSize="20sp"/>
 
         <TextView

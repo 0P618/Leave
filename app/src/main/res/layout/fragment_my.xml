@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gainsboro"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gainsboro"
+              android:orientation="vertical">
 
 
     <RelativeLayout
@@ -30,39 +30,6 @@
             android:id="@+id/tv_login_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/title_text_size" />
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/myFack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/nullText"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:text="当前无有效假条" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="历史假条"/>
-
-    <ListView
-        android:id="@+id/historyFack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/nullHost"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:text="无历史假条" />
-
             android:layout_below="@+id/iv_avatar"
             android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/big_space"
