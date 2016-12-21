@@ -4,7 +4,7 @@ package com.goldenratio.leave.bean;
  * Created by Kiuber on 2016/12/18.
  */
 
-public class Leave {
+public class LeaveBean {
     private String start_time;
     private String end_time;
     private String type;

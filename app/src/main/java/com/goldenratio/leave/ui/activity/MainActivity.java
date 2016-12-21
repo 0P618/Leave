@@ -25,7 +25,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     private ViewPager mVpContent;
     private RadioGroup mRgTabs;
     private RadioButton mRbLeave;
-    private RadioButton mRbNews;
+    //    private RadioButton mRbNews;
     private RadioButton mRbProgress;
     private RadioButton mRbMy;
     private ArrayList<Fragment> mFragmentList;
@@ -43,24 +43,25 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
 
         mRgTabs = (RadioGroup) findViewById(R.id.rg_tabs);
         mRbLeave = (RadioButton) findViewById(R.id.rb_leave);
-        mRbNews = (RadioButton) findViewById(R.id.rb_news);
+//        mRbNews = (RadioButton) findViewById(R.id.rb_news);
         mRbProgress = (RadioButton) findViewById(R.id.rb_progress);
         mRbMy = (RadioButton) findViewById(R.id.rb_my);
 
         mFragmentList = new ArrayList<Fragment>();
         mFragmentList.add(new LeaveFragment());
-        mFragmentList.add(new NewsFragment());
+//        mFragmentList.add(new NewsFragment());
         mFragmentList.add(new ProgressFragment());
         mFragmentList.add(new MyFragment());
         mMyFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), mFragmentList);
 
         mRgTabs.setOnCheckedChangeListener(this);
-        mRbNews.setChecked(true);
+        mRbLeave.setChecked(true);
+//        mRbNews.setChecked(true);
 
         mVpContent.setAdapter(mMyFragmentPagerAdapter);
-        mVpContent.setCurrentItem(1);
+        mVpContent.setCurrentItem(0);
         mVpContent.addOnPageChangeListener(this);
-        mVpContent.setOffscreenPageLimit(4);
+        mVpContent.setOffscreenPageLimit(3);
     }
 
     @Override
@@ -69,14 +70,14 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             case R.id.rb_leave:
                 mVpContent.setCurrentItem(0);
                 break;
-            case R.id.rb_news:
+//            case R.id.rb_news:
+//                mVpContent.setCurrentItem(1);
+//                break;
+            case R.id.rb_progress:
                 mVpContent.setCurrentItem(1);
                 break;
-            case R.id.rb_progress:
-                mVpContent.setCurrentItem(2);
-                break;
             case R.id.rb_my:
-                mVpContent.setCurrentItem(3);
+                mVpContent.setCurrentItem(2);
                 break;
         }
     }
@@ -99,13 +100,13 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
                 case 0:
                     mRbLeave.setChecked(true);
                     break;
+//                case 1:
+//                    mRbNews.setChecked(true);
+//                    break;
                 case 1:
-                    mRbNews.setChecked(true);
-                    break;
-                case 2:
                     mRbProgress.setChecked(true);
                     break;
-                case 3:
+                case 2:
                     mRbMy.setChecked(true);
                     break;
             }

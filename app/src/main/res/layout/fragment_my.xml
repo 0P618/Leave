@@ -5,14 +5,29 @@
     android:background="@color/gainsboro"
     android:orientation="vertical">
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:padding="@dimen/normal_space">
+        android:layout_height="220dp"
+        android:background="@color/colorSecondary">
+
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/normal_space"
+            android:src="@drawable/ic_settings_black_24dp" />
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/default_avatar" />
 
         <TextView
+            android:id="@+id/tv_login_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我的"
@@ -48,4 +63,15 @@
         android:gravity="center"
         android:text="无历史假条" />
 
+            android:layout_below="@+id/iv_avatar"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/big_space"
+            android:background="@drawable/default_fill_little"
+            android:paddingBottom="@dimen/little_space"
+            android:paddingLeft="@dimen/normal_space"
+            android:paddingRight="@dimen/normal_space"
+            android:paddingTop="@dimen/little_space"
+            android:text="立即登陆"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
 </LinearLayout>

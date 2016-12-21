@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.adapter.FackItemsAdapter;
@@ -22,14 +23,21 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import com.goldenratio.leave.util.AppUtil;
+
+import static android.app.Activity.RESULT_OK;
+import static com.goldenratio.leave.util.AppUtil.APP_SETTING;
+import static com.goldenratio.leave.util.AppUtil.USER_LOGIN;
 
 /**
  * Created by Kiuber on 2016/12/19.
  */
 
 public class MyFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class MyFragment extends Fragment implements View.OnClickListener {
 
     private View view;
+    private TextView mTvLoginState;
     private ListView myFack;
     private ListView historyFack;
     private FackItemsAdapter mNowAdapter;
@@ -41,6 +49,8 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
         view = inflater.inflate(R.layout.fragment_my, null);
         initView(view);
         initData();
+        initView();
+        initUserInfo();
         return view;
     }
 
@@ -109,5 +119,54 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
         intent.putExtra("Etime",leave.getEnd_time());
         intent.putExtra("context",leave.getRemark());
         startActivity(intent);
+    }
+
+    private void initView() {
+        mTvLoginState = (TextView) view.findViewById(R.id.tv_login_state);
+        mTvLoginState.setOnClickListener(this);
+        view.findViewById(R.id.iv_setting).setOnClickListener(this);
+    }
+
+    private void initUserInfo() {
+        String id = AppUtil.isLogin(getContext());
+        if (id != null) {
+            // 用户已登陆
+            mTvLoginState.setText(id);
+            mTvLoginState.setClickable(false);
+        }
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_login_state:
+                startActivityForResult(new Intent(getContext(), LoginActivity.class), USER_LOGIN);
+                break;
+            case R.id.iv_setting:
+                startActivityForResult(new Intent(getContext(), SettingActivity.class), APP_SETTING);
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case USER_LOGIN:
+                if (resultCode == RESULT_OK) {
+                    // 登陆返回
+                    getActivity().finish();
+                    startActivity(getActivity().getIntent());
+                }
+                break;
+            case APP_SETTING:
+                if (resultCode == RESULT_OK) {
+                    // 退出返回
+                    getActivity().finish();
+                    startActivity(getActivity().getIntent());
+                }
+                break;
+        }
     }
 }
