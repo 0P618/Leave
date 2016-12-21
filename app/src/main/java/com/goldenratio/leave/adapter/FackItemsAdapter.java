@@ -68,6 +68,7 @@ public class FackItemsAdapter extends BaseAdapter {
         private TextView mEndTime;
         private TextView mType;
         private TextView mShowPro;
+        private RelativeLayout mLayout;
 
         public void initView(View view) {
             mName = (TextView) view.findViewById(R.id.name);
@@ -75,28 +76,28 @@ public class FackItemsAdapter extends BaseAdapter {
             mEndTime = (TextView) view.findViewById(R.id.endTime);
             mType = (TextView) view.findViewById(R.id.type);
             mShowPro = (TextView) view.findViewById(R.id.show_pro);
-
-            mShowPro.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext, "test!!", Toast.LENGTH_SHORT).show();
-                }
-            });
-            RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.lineItems);
-            if (!isFailure){
-                layout.setBackgroundResource(R.drawable.fack_now_items_bg);
-                isFailure = true;
-            }else {
-                layout.setBackgroundResource(R.drawable.fack_not_items_bg);
-                mShowPro.setVisibility(View.GONE);
-            }
+            mLayout = (RelativeLayout) view.findViewById(R.id.lineItems);
         }
 
-        public void initData(int position) {
+        public void initData(final int position) {
             mName.setText("姓名：" + mLeaveList.get(position).getName());
             mStartTime.setText("开始时间：" + mLeaveList.get(position).getStart_time());
             mEndTime.setText("结束时间：" + mLeaveList.get(position).getEnd_time());
             mType.setText("类型：" + mLeaveList.get(position).getType());
+
+            //去除缓存问题
+            mLayout.setBackgroundResource(R.drawable.fack_not_items_bg);
+            mShowPro.setVisibility(View.GONE);
+            if (!isFailure && position == 0){
+                mLayout.setBackgroundResource(R.drawable.fack_now_items_bg);
+                mShowPro.setVisibility(View.VISIBLE);
+                mShowPro.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(mContext, "test!!" + position, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }
     }
 }

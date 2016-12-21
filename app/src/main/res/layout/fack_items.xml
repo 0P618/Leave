@@ -53,6 +53,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="查看进度"
+            android:visibility="gone"
             android:textSize="15sp"/>
     </RelativeLayout>
 
