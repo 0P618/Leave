@@ -123,10 +123,10 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
                         keys.add("sex");
                         keys.add("autograph");
                         ArrayList<String> values = new ArrayList<>();
-                        values.add("id");
-                        values.add("nickname");
-                        values.add("sex");
-                        values.add("autograph");
+                        values.add(id);
+                        values.add("Kiuber");
+                        values.add("男");
+                        values.add("革命尚未成功！");
                         if (mCbLoginState.isChecked()) {
                             // 保持登陆
                             // login_state 由登陆状态与id的MD5组成。1为登陆 0为未登陆
@@ -134,6 +134,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
                             boolean user_info = SharedPreferenceUtil.putMultiple(LoginActivity.this, "user_info", keys, values);
                             if (b && user_info) {
                                 Toast.makeText(this, "登陆成功！", Toast.LENGTH_SHORT).show();
+                                setResult(RESULT_OK);
                                 finish();
                             } else {
                                 Toast.makeText(this, "信息保存失败，请重试！", Toast.LENGTH_SHORT).show();
@@ -201,6 +202,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
     }
 
     private String getUserInfo() {
-        return null;
+        return "1513640218";
     }
 }

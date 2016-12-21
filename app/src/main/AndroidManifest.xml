@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.fragment.LoginActivity" />
+        <activity android:name=".ui.fragment.SettingActivity" />
     </application>
 
 </manifest>
