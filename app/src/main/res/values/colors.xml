@@ -5,6 +5,8 @@
 
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#3db59e</color>
-
+    <color name="normal_bg_color">#E0DFE0</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="gainsboro">#dcdcdc</color><!--淡灰色 -->
 </resources>
