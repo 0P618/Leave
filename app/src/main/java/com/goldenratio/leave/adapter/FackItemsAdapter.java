@@ -5,8 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.bean.LeaveBean;
@@ -22,12 +23,12 @@ public class FackItemsAdapter extends BaseAdapter {
     private List<LeaveBean> mLeaveList;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private boolean isNow;
+    private boolean isFailure;
 
     public FackItemsAdapter(Context context,List<LeaveBean> list,boolean flag){
         mContext = context;
         mLeaveList = list;
-        isNow = flag;
+        isFailure = flag;
         mLayoutInflater = LayoutInflater.from(context);
     }
 
@@ -66,16 +67,28 @@ public class FackItemsAdapter extends BaseAdapter {
         private TextView mStartTime;
         private TextView mEndTime;
         private TextView mType;
+        private TextView mShowPro;
 
         public void initView(View view) {
             mName = (TextView) view.findViewById(R.id.name);
             mStartTime = (TextView) view.findViewById(R.id.startTime);
             mEndTime = (TextView) view.findViewById(R.id.endTime);
             mType = (TextView) view.findViewById(R.id.type);
+            mShowPro = (TextView) view.findViewById(R.id.show_pro);
 
-            if (!isNow){
-                LinearLayout layout = (LinearLayout) view.findViewById(R.id.lineItems);
+            mShowPro.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, "test!!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.lineItems);
+            if (!isFailure){
+                layout.setBackgroundResource(R.drawable.fack_now_items_bg);
+                isFailure = true;
+            }else {
                 layout.setBackgroundResource(R.drawable.fack_not_items_bg);
+                mShowPro.setVisibility(View.GONE);
             }
         }
 

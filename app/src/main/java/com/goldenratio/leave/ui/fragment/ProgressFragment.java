@@ -30,9 +30,7 @@ public class ProgressFragment extends Fragment implements AdapterView.OnItemClic
 
     private View view;
     private ListView myFack;
-    private ListView historyFack;
     private FackItemsAdapter mNowAdapter;
-    private FackItemsAdapter mHistoryAdapter;
 
     @Nullable
     @Override
@@ -45,30 +43,31 @@ public class ProgressFragment extends Fragment implements AdapterView.OnItemClic
 
     private void initView() {
         myFack = (ListView) view.findViewById(R.id.myFack);
-        historyFack = (ListView) view.findViewById(R.id.historyFack);
 
         myFack.setEmptyView(view.findViewById(R.id.nullText));
-        historyFack.setEmptyView(view.findViewById(R.id.nullHost));
         myFack.setOnItemClickListener(this);
-        historyFack.setOnItemClickListener(this);
     }
 
     private void initData() {
         //TODO 测试数据
         List<LeaveBean> list = new ArrayList<>();
-        LeaveBean leave = new LeaveBean();
-        leave.setClassName("ruan jian");
-        leave.setName("Loli");
-        leave.setRemark("这是详细内容");
-        leave.setType("病假");
-        leave.setStart_time("2016-12-21 11:11:11");
-        leave.setEnd_time("2016-12-25 11:11:11");
-        list.add(leave);
-        mNowAdapter = new FackItemsAdapter(getActivity(),list,true);
-        mHistoryAdapter = new FackItemsAdapter(getActivity(),list,false);
+        for (int i = 0; i < 6; i++) {
+            LeaveBean leave = new LeaveBean();
+            leave.setClassName("ruan jian");
+            leave.setName("Loli" + i);
+            leave.setRemark("这是详细内容");
+            leave.setType("病假");
+            leave.setStart_time("2016-12-21 11:11:11");
+            leave.setEnd_time("2016-12-25 11:11:11");
+            list.add(leave);
+        }
+        if (isEndTime(list.get(0).getEnd_time())){
+            mNowAdapter = new FackItemsAdapter(getActivity(),list,true);
+        }else {
+            mNowAdapter = new FackItemsAdapter(getActivity(),list,false);
+        }
 
         myFack.setAdapter(mNowAdapter);
-        historyFack.setAdapter(mHistoryAdapter);
     }
 
     /**

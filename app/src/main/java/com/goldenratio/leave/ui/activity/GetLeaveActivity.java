@@ -1,13 +1,13 @@
 package com.goldenratio.leave.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.goldenratio.leave.R;
 
-public class GetLeaveActivity extends AppCompatActivity {
+public class GetLeaveActivity extends Activity {
 
     private TextView mName;
     private TextView mClassName;

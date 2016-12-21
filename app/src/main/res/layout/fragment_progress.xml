@@ -23,8 +23,7 @@
     <ListView
         android:id="@+id/myFack"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/normal_space"/>
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/nullText"
@@ -33,20 +32,4 @@
         android:gravity="center"
         android:text="当前无有效假条"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="历史假条"/>
-
-    <ListView
-        android:id="@+id/historyFack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/nullHost"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:text="无历史假条"/>
 </LinearLayout>
