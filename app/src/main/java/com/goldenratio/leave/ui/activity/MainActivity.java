@@ -14,7 +14,6 @@ import com.goldenratio.leave.ui.fragment.HistoryFragment;
 import com.goldenratio.leave.ui.fragment.LeaveFragment;
 import com.goldenratio.leave.ui.fragment.MyFragment;
 import com.goldenratio.leave.util.StatusBarUtil;
-import com.goldenratio.leave.ui.fragment.ProgressFragment;
 
 import java.util.ArrayList;
 
@@ -31,7 +30,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     private RadioButton mRbProgress;
     private RadioButton mRbMy;
     private ArrayList<Fragment> mFragmentList;
-    private MyFragmentPagerAdapter mMyFragmentPagerAdapter;
+    private FragmentPagerAdapter mMyFragmentPagerAdapter;
     private long exitTime = 0;
 
     private backListener mBackListener;
@@ -54,15 +53,17 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         mRgTabs = (RadioGroup) findViewById(R.id.rg_tabs);
         mRbLeave = (RadioButton) findViewById(R.id.rb_leave);
 //        mRbNews = (RadioButton) findViewById(R.id.rb_news);
-        mRbProgress = (RadioButton) findViewById(R.id.rb_progress);
+        mRbProgress = (RadioButton) findViewById(R.id.rb_history);
         mRbMy = (RadioButton) findViewById(R.id.rb_my);
 
         mFragmentList = new ArrayList<Fragment>();
-        mFragmentList.add(new LeaveFragment());
+
+        mBackListener = new LeaveFragment();
+        mFragmentList.add((LeaveFragment) mBackListener);
 //        mFragmentList.add(new NewsFragment());
-        mFragmentList.add(new ProgressFragment());
+        mFragmentList.add(new HistoryFragment());
         mFragmentList.add(new MyFragment());
-        mMyFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), mFragmentList);
+        mMyFragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), mFragmentList);
 
         mRgTabs.setOnCheckedChangeListener(this);
         mRbLeave.setChecked(true);

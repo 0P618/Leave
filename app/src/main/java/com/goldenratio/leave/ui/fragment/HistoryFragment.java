@@ -28,7 +28,7 @@ import java.util.List;
  * Created by Kiuber on 2016/12/18.
  */
 
-public class ProgressFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class HistoryFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private View view;
     private List<LeaveBean> list;
@@ -39,7 +39,7 @@ public class ProgressFragment extends Fragment implements AdapterView.OnItemClic
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_progress, null);
+        view = inflater.inflate(R.layout.fragment_history, null);
         initView();
         initData();
         return view;
@@ -51,7 +51,6 @@ public class ProgressFragment extends Fragment implements AdapterView.OnItemClic
         myFack.setEmptyView(view.findViewById(R.id.nullText));
         myFack.setOnItemClickListener(this);
         myFack.setOnItemLongClickListener(this);
-
     }
 
     private void initData() {
@@ -78,19 +77,20 @@ public class ProgressFragment extends Fragment implements AdapterView.OnItemClic
 
     /**
      * 区分假条是否已经过期
+     *
      * @param time 时间字符串
      * @return 是否过期
      */
-    private boolean isEndTime(String time){
+    private boolean isEndTime(String time) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long EndTime = 0;
         long nowTime = SystemClock.currentThreadTimeMillis();
         try {
             EndTime = sdf.parse(time).getTime();
-            if (EndTime >= nowTime){
+            if (EndTime >= nowTime) {
                 //未过期
                 return false;
-            }else {
+            } else {
                 return true;
             }
         } catch (ParseException e) {
