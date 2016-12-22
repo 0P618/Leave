@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#F0EFF5">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#F0EFF5"
+              android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
@@ -20,165 +20,171 @@
             android:textSize="@dimen/title_text_size"/>
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_type"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_title"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_tv_selector"
-        android:padding="@dimen/normal_space">
+        android:fillViewport="true">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@mipmap/news_cate_arr"
-            android:gravity="left"
-            android:text="请假类型"
-            android:textColor="#000"
-            android:textSize="16sp"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:text="请选择"/>
+            <RelativeLayout
+                android:id="@+id/rl_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/item_tv_selector"
+                android:padding="@dimen/normal_space">
 
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/news_cate_arr"
+                    android:gravity="left"
+                    android:text="请假类型"
+                    android:textColor="#000"
+                    android:textSize="16sp"/>
 
-    <RelativeLayout
-        android:id="@+id/rl_start_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_type"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_tv_selector"
-        android:padding="@dimen/normal_space">
+                <TextView
+                    android:id="@+id/tv_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:text="请选择"/>
 
-        <TextView
-            android:id="@+id/tv_start_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:text="请选择"/>
+            </RelativeLayout>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:drawableRight="@mipmap/news_cate_arr"
-            android:gravity="left"
-            android:text="开始时间"
-            android:textColor="#000"
-            android:textSize="16sp"/>
+            <RelativeLayout
+                android:id="@+id/rl_start_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/item_tv_selector"
+                android:padding="@dimen/normal_space">
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:text="请选择"/>
 
-    <RelativeLayout
-        android:id="@+id/rl_end_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_start_time"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_tv_selector"
-        android:padding="@dimen/normal_space">
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:drawableRight="@mipmap/news_cate_arr"
+                    android:gravity="left"
+                    android:text="开始时间"
+                    android:textColor="#000"
+                    android:textSize="16sp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableRight="@mipmap/news_cate_arr"
-            android:gravity="left"
-            android:text="结束时间"
-            android:textColor="#000"
-            android:textSize="16sp"/>
+            </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_end_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:text="请选择"/>
+            <RelativeLayout
+                android:id="@+id/rl_end_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/item_tv_selector"
+                android:padding="@dimen/normal_space">
 
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/news_cate_arr"
+                    android:gravity="left"
+                    android:text="结束时间"
+                    android:textColor="#000"
+                    android:textSize="16sp"/>
 
-    <RelativeLayout
-        android:id="@+id/rl_days"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_end_time"
-        android:layout_marginTop="20dp"
-        android:background="@color/white"
-        android:padding="@dimen/normal_space">
+                <TextView
+                    android:id="@+id/tv_end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:text="请选择"/>
 
-        <EditText
-            android:id="@+id/et_days"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_days"
-            android:layout_alignTop="@+id/tv_days"
-            android:layout_marginLeft="100dp"
-            android:background="@null"
-            android:hint="请输入请假天数"
-            android:inputType="phone"
-            android:maxLength="3"
-            android:textSize="15sp"/>
+            </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_days"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="请假天数"
-            android:textColor="#000"
-            android:textSize="16sp"/>
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_days"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:padding="@dimen/normal_space">
 
-    <TextView
-        android:id="@+id/tv_why"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_days"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:text="请假事由"
-        android:textColor="#FF8C00"
-        android:textSize="13sp"/>
+                <EditText
+                    android:id="@+id/et_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_days"
+                    android:layout_alignTop="@+id/tv_days"
+                    android:layout_marginLeft="100dp"
+                    android:background="@null"
+                    android:hint="请输入请假天数"
+                    android:inputType="phone"
+                    android:maxLength="3"
+                    android:textSize="15sp"/>
 
-    <EditText
-        android:id="@+id/et_why"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_why"
-        android:layout_marginBottom="30dp"
-        android:background="@color/white"
-        android:gravity="start"
-        android:hint="请输入请假原因"
-        android:lines="5"
-        android:maxLength="150"
-        android:maxLines="5"
-        android:padding="@dimen/normal_space"
-        android:textColor="@color/black"
-        android:textSize="15sp"/>
+                <TextView
+                    android:id="@+id/tv_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:text="请假天数"
+                    android:textColor="#000"
+                    android:textSize="16sp"/>
+            </RelativeLayout>
 
-    <Button
-        android:id="@+id/btn_submit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_why"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="70dp"
-        android:background="@drawable/default_fill_big"
-        android:text="提交"
-        android:textColor="@color/white"
-        android:textSize="19sp"/>
+            <TextView
+                android:id="@+id/tv_why"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="请假事由"
+                android:textColor="#FF8C00"
+                android:textSize="13sp"/>
 
-</RelativeLayout>
+            <EditText
+                android:id="@+id/et_why"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:background="@color/white"
+                android:gravity="start"
+                android:hint="请输入请假原因"
+                android:lines="5"
+                android:maxLength="150"
+                android:maxLines="5"
+                android:padding="@dimen/normal_space"
+                android:textColor="@color/black"
+                android:textSize="15sp"/>
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/default_fill_big"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:textSize="19sp"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

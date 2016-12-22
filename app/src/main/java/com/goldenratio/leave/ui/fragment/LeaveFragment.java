@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.goldenratio.leave.R;
+import com.goldenratio.leave.ui.activity.MainActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,7 +27,7 @@ import java.util.Date;
  * Created by Kiuber on 2016/12/18.
  */
 
-public class LeaveFragment extends Fragment implements View.OnClickListener {
+public class LeaveFragment extends Fragment implements View.OnClickListener, MainActivity.backListener {
 
     private View view;
     private TimePickerView pvTime;
@@ -49,11 +51,11 @@ public class LeaveFragment extends Fragment implements View.OnClickListener {
 
         initView();
         //时间选择器
-        pvTime = new TimePickerView(getActivity(), TimePickerView.Type.YEAR_MONTH_DAY);
+        pvTime = new TimePickerView(getActivity(), TimePickerView.Type.ALL);
 
         //控制时间范围
         Calendar calendar = Calendar.getInstance();
-        pvTime.setRange(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR));//要在setTime 之前才有效果哦
+        pvTime.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 20);//要在setTime 之前才有效果哦
         pvTime.setTime(new Date());
         pvTime.setCyclic(true);
         pvTime.setCancelable(true);
@@ -62,7 +64,7 @@ public class LeaveFragment extends Fragment implements View.OnClickListener {
 
     private String getTime(Date date) {
 //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return format.format(date);
     }
 
@@ -78,6 +80,8 @@ public class LeaveFragment extends Fragment implements View.OnClickListener {
         mEtWhy = (EditText) view.findViewById(R.id.et_why);
         mBtnSubmit = (Button) view.findViewById(R.id.btn_submit);
 
+        Linkify.addLinks(mEtDays, Linkify.PHONE_NUMBERS);
+        Linkify.addLinks(mEtWhy, Linkify.PHONE_NUMBERS);
         mRlType.setOnClickListener(this);
         mRlStartTime.setOnClickListener(this);
         mRlEndTime.setOnClickListener(this);
@@ -118,7 +122,7 @@ public class LeaveFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void showTypeAlertDialog() {
+    private void showTypeAlertDialog() {
         final String[] items = {"病假", "事假", "其它"};
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
         alertBuilder.setTitle("请假类型");
@@ -131,5 +135,14 @@ public class LeaveFragment extends Fragment implements View.OnClickListener {
         });
         leaveTypeDialog = alertBuilder.create();
         leaveTypeDialog.show();
+    }
+
+    @Override
+    public boolean callBack() {
+        if (pvTime.isShowing()) {
+            pvTime.dismiss();
+            return true;
+        }
+        return false;
     }
 }

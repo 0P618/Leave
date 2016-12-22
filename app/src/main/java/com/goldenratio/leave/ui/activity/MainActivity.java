@@ -6,12 +6,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.adapter.MyFragmentPagerAdapter;
 import com.goldenratio.leave.ui.fragment.LeaveFragment;
 import com.goldenratio.leave.ui.fragment.MyFragment;
-import com.goldenratio.leave.ui.fragment.NewsFragment;
 import com.goldenratio.leave.ui.fragment.ProgressFragment;
 
 import java.util.ArrayList;
@@ -30,6 +30,14 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     private RadioButton mRbMy;
     private ArrayList<Fragment> mFragmentList;
     private MyFragmentPagerAdapter mMyFragmentPagerAdapter;
+    private long exitTime = 0;
+
+    private backListener mBackListener;
+
+    //回调fragment的返回键
+    public interface backListener {
+        boolean callBack();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +56,10 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         mRbMy = (RadioButton) findViewById(R.id.rb_my);
 
         mFragmentList = new ArrayList<Fragment>();
-        mFragmentList.add(new LeaveFragment());
+
+        mBackListener = new LeaveFragment();
+
+        mFragmentList.add((LeaveFragment) mBackListener);
 //        mFragmentList.add(new NewsFragment());
         mFragmentList.add(new ProgressFragment());
         mFragmentList.add(new MyFragment());
@@ -110,6 +121,21 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
                     mRbMy.setChecked(true);
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        if (mBackListener.callBack())
+            return;
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次返回键退出",
+                    Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            //      finish();
+            System.exit(0);
         }
     }
 }
