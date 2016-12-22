@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Kiuber on 2016/12/18.
  */
 
-public class ProgressFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class HistoryFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private View view;
     private ListView myFack;
@@ -35,7 +35,7 @@ public class ProgressFragment extends Fragment implements AdapterView.OnItemClic
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_progress, null);
+        view = inflater.inflate(R.layout.fragment_history, null);
         initView();
         initData();
         return view;
@@ -61,10 +61,10 @@ public class ProgressFragment extends Fragment implements AdapterView.OnItemClic
             leave.setEnd_time("2016-12-25 11:11:11");
             list.add(leave);
         }
-        if (isEndTime(list.get(0).getEnd_time())){
-            mNowAdapter = new FackItemsAdapter(getActivity(),list,true);
-        }else {
-            mNowAdapter = new FackItemsAdapter(getActivity(),list,false);
+        if (isEndTime(list.get(0).getEnd_time())) {
+            mNowAdapter = new FackItemsAdapter(getActivity(), list, true);
+        } else {
+            mNowAdapter = new FackItemsAdapter(getActivity(), list, false);
         }
 
         myFack.setAdapter(mNowAdapter);
@@ -72,19 +72,20 @@ public class ProgressFragment extends Fragment implements AdapterView.OnItemClic
 
     /**
      * 区分假条是否已经过期
+     *
      * @param time 时间字符串
      * @return 是否过期
      */
-    private boolean isEndTime(String time){
+    private boolean isEndTime(String time) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long EndTime = 0;
         long nowTime = SystemClock.currentThreadTimeMillis();
         try {
             EndTime = sdf.parse(time).getTime();
-            if (EndTime >= nowTime){
+            if (EndTime >= nowTime) {
                 //未过期
                 return false;
-            }else {
+            } else {
                 return true;
             }
         } catch (ParseException e) {
@@ -98,11 +99,11 @@ public class ProgressFragment extends Fragment implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         LeaveBean leave = (LeaveBean) parent.getAdapter().getItem(position);
         Intent intent = new Intent(getActivity(), GetLeaveActivity.class);
-        intent.putExtra("name",leave.getName());
-        intent.putExtra("className",leave.getClassName());
-        intent.putExtra("Stime",leave.getStart_time());
-        intent.putExtra("Etime",leave.getEnd_time());
-        intent.putExtra("context",leave.getRemark());
+        intent.putExtra("name", leave.getName());
+        intent.putExtra("className", leave.getClassName());
+        intent.putExtra("Stime", leave.getStart_time());
+        intent.putExtra("Etime", leave.getEnd_time());
+        intent.putExtra("context", leave.getRemark());
         startActivity(intent);
     }
 }

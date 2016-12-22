@@ -13,12 +13,28 @@
         android:gravity="center"
         android:padding="@dimen/normal_space">
 
+        <ImageView
+            android:id="@+id/iv_scan"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="@dimen/normal_space"
+            android:src="@drawable/ic_scan" />
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="请假"
             android:textColor="@android:color/white"
             android:textSize="@dimen/title_text_size" />
+
+        <ImageView
+            android:id="@+id/iv_encoder"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="@dimen/normal_space"
+            android:src="@drawable/ic_qr_code" />
     </LinearLayout>
 
     <RelativeLayout
