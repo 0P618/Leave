@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.goldenratio.leave.R;
+import com.goldenratio.leave.ui.activity.LoginActivity;
+import com.goldenratio.leave.ui.activity.SettingActivity;
 import com.goldenratio.leave.util.AppUtil;
 
 import static android.app.Activity.RESULT_OK;

@@ -9,4 +9,6 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="gainsboro">#dcdcdc</color><!--淡灰色 -->
+
+    <color name="layout_default_bg_color">#fafafa</color>
 </resources>
