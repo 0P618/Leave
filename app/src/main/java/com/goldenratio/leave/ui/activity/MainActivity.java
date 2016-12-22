@@ -8,7 +8,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.goldenratio.leave.R;
-import com.goldenratio.leave.adapter.MyFragmentPagerAdapter;
+import com.goldenratio.leave.adapter.FragmentPagerAdapter;
 import com.goldenratio.leave.ui.fragment.LeaveFragment;
 import com.goldenratio.leave.ui.fragment.MyFragment;
 import com.goldenratio.leave.ui.fragment.ProgressFragment;
@@ -29,7 +29,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     private RadioButton mRbProgress;
     private RadioButton mRbMy;
     private ArrayList<Fragment> mFragmentList;
-    private MyFragmentPagerAdapter mMyFragmentPagerAdapter;
+    private FragmentPagerAdapter mFragmentPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +47,18 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         mRbProgress = (RadioButton) findViewById(R.id.rb_progress);
         mRbMy = (RadioButton) findViewById(R.id.rb_my);
 
-        mFragmentList = new ArrayList<Fragment>();
+        mFragmentList = new ArrayList<>();
         mFragmentList.add(new LeaveFragment());
 //        mFragmentList.add(new NewsFragment());
         mFragmentList.add(new ProgressFragment());
         mFragmentList.add(new MyFragment());
-        mMyFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), mFragmentList);
+        mFragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), mFragmentList);
 
         mRgTabs.setOnCheckedChangeListener(this);
         mRbLeave.setChecked(true);
 //        mRbNews.setChecked(true);
 
-        mVpContent.setAdapter(mMyFragmentPagerAdapter);
+        mVpContent.setAdapter(mFragmentPagerAdapter);
         mVpContent.setCurrentItem(0);
         mVpContent.addOnPageChangeListener(this);
         mVpContent.setOffscreenPageLimit(3);
