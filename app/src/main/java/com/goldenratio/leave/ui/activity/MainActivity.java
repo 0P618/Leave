@@ -9,9 +9,9 @@ import android.widget.RadioGroup;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.adapter.FragmentPagerAdapter;
+import com.goldenratio.leave.ui.fragment.HistoryFragment;
 import com.goldenratio.leave.ui.fragment.LeaveFragment;
 import com.goldenratio.leave.ui.fragment.MyFragment;
-import com.goldenratio.leave.ui.fragment.ProgressFragment;
 import com.goldenratio.leave.util.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -44,13 +44,13 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         mRgTabs = (RadioGroup) findViewById(R.id.rg_tabs);
         mRbLeave = (RadioButton) findViewById(R.id.rb_leave);
 //        mRbNews = (RadioButton) findViewById(R.id.rb_news);
-        mRbProgress = (RadioButton) findViewById(R.id.rb_progress);
+        mRbProgress = (RadioButton) findViewById(R.id.rb_history);
         mRbMy = (RadioButton) findViewById(R.id.rb_my);
 
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new LeaveFragment());
 //        mFragmentList.add(new NewsFragment());
-        mFragmentList.add(new ProgressFragment());
+        mFragmentList.add(new HistoryFragment());
         mFragmentList.add(new MyFragment());
         mFragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), mFragmentList);
 
@@ -74,7 +74,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
 //            case R.id.rb_news:
 //                mVpContent.setCurrentItem(1);
 //                break;
-            case R.id.rb_progress:
+            case R.id.rb_history:
                 StatusBarUtil.setStatusBarColor(this, true, R.color.colorPrimary, false);
                 mVpContent.setCurrentItem(1);
                 break;

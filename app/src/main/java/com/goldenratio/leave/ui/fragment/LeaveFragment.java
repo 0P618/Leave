@@ -1,6 +1,7 @@
 package com.goldenratio.leave.ui.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.goldenratio.leave.R;
+import com.goldenratio.leave.ui.activity.QREncoderActivity;
+import com.goldenratio.leave.ui.activity.ScanActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -81,6 +84,9 @@ public class LeaveFragment extends Fragment implements View.OnClickListener {
         mRlType.setOnClickListener(this);
         mRlStartTime.setOnClickListener(this);
         mRlEndTime.setOnClickListener(this);
+
+        view.findViewById(R.id.iv_scan).setOnClickListener(this);
+        view.findViewById(R.id.iv_encoder).setOnClickListener(this);
     }
 
     @Override
@@ -111,6 +117,12 @@ public class LeaveFragment extends Fragment implements View.OnClickListener {
                 pvTime.show();
                 break;
             case R.id.btn_submit:
+                break;
+            case R.id.iv_scan:
+                startActivity(new Intent(getContext(), ScanActivity.class));
+                break;
+            case R.id.iv_encoder:
+                startActivity(new Intent(getContext(), QREncoderActivity.class));
                 break;
             default:
                 break;

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.goldenratio.leave">
+
+    <uses-sdk tools:overrideLibrary="cn.bingoogolapple.photopicker,cn.bingoogolapple.androidcommon.adapter" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -22,6 +30,8 @@
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.SettingActivity" />
         <activity android:name=".ui.activity.GetLeaveActivity" />
+        <activity android:name=".ui.activity.ScanActivity" />
+        <activity android:name=".ui.activity.QREncoderActivity" />
     </application>
 
 </manifest>
