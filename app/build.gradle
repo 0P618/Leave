@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -29,4 +29,11 @@ dependencies {
     apply plugin: 'com.android.application'
     testCompile 'junit:junit:4.12'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    compile files('libs/flymeapi.jar')
+
+    compile 'com.google.zxing:core:3.2.1'
+    compile 'cn.bingoogolapple:bga-qrcodecore:1.1.6@aar'
+    compile 'cn.bingoogolapple:bga-zxing:1.1.6@aar'
+    compile 'com.github.baoyachi:StepView:1.9'
 }

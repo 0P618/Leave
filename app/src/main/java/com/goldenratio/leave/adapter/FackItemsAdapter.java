@@ -1,6 +1,7 @@
 package com.goldenratio.leave.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.bean.LeaveBean;
+import com.goldenratio.leave.ui.activity.CheckProgressActivity;
 
 import java.util.List;
 
@@ -94,6 +96,8 @@ public class FackItemsAdapter extends BaseAdapter {
                 mShowPro.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Intent intent = new Intent(mContext, CheckProgressActivity.class);
+                        mContext.startActivity(intent);
                         Toast.makeText(mContext, "test!!" + position, Toast.LENGTH_SHORT).show();
                     }
                 });

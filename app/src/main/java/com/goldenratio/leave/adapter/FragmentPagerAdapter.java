@@ -2,7 +2,6 @@ package com.goldenratio.leave.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -11,10 +10,10 @@ import java.util.List;
  * Created by Kiuber on 2016/12/18.
  */
 
-public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
+public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
     private List<Fragment> fragmentList;
 
-    public MyFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragmentList) {
+    public FragmentPagerAdapter(FragmentManager fm, List<Fragment> fragmentList) {
         super(fm);
         this.fragmentList = fragmentList;
     }

@@ -78,20 +78,19 @@ public class ProgressFragment extends Fragment implements AdapterView.OnItemClic
 
     /**
      * 区分假条是否已经过期
-     *
      * @param time 时间字符串
      * @return 是否过期
      */
-    private boolean isEndTime(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private boolean isEndTime(String time){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long EndTime = 0;
         long nowTime = SystemClock.currentThreadTimeMillis();
         try {
             EndTime = sdf.parse(time).getTime();
-            if (EndTime >= nowTime) {
+            if (EndTime >= nowTime){
                 //未过期
                 return false;
-            } else {
+            }else {
                 return true;
             }
         } catch (ParseException e) {

@@ -12,12 +12,28 @@
         android:gravity="center"
         android:padding="@dimen/normal_space">
 
+        <ImageView
+            android:id="@+id/iv_scan"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="@dimen/normal_space"
+            android:src="@drawable/ic_scan" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="请假"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/title_text_size"/>
+            android:textSize="@dimen/title_text_size" />
+
+        <ImageView
+            android:id="@+id/iv_encoder"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="@dimen/normal_space"
+            android:src="@drawable/ic_qr_code" />
     </LinearLayout>
 
     <ScrollView
@@ -38,24 +54,24 @@
                 android:background="@drawable/item_tv_selector"
                 android:padding="@dimen/normal_space">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@mipmap/news_cate_arr"
-                    android:gravity="left"
-                    android:text="请假类型"
-                    android:textColor="#000"
-                    android:textSize="16sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@mipmap/news_cate_arr"
+            android:gravity="left"
+            android:text="请假类型"
+            android:textColor="#000"
+            android:textSize="16sp"/>
 
-                <TextView
-                    android:id="@+id/tv_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
-                    android:text="请选择"/>
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:text="请选择"/>
 
-            </RelativeLayout>
+    </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_start_time"
