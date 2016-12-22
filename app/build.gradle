@@ -29,4 +29,5 @@ dependencies {
     apply plugin: 'com.android.application'
     testCompile 'junit:junit:4.12'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.github.baoyachi:StepView:1.9'
 }

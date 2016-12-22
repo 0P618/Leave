@@ -19,6 +19,8 @@
         <activity android:name=".ui.fragment.SettingActivity"/>
         <activity android:name=".ui.activity.GetLeaveActivity">
         </activity>
+        <activity android:name=".ui.activity.CheckProgressActivity">
+        </activity>
     </application>
 
 </manifest>
