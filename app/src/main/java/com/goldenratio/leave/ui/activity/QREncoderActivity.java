@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goldenratio.leave.R;
+import com.goldenratio.leave.util.FileUtil;
 import com.goldenratio.leave.util.StatusBarUtil;
 
 import java.io.File;
@@ -95,9 +96,12 @@ public class QREncoderActivity extends Activity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.tv_save:
                 if (bitmap != null) {
-                    saveImage2Gallery(bitmap);
-                    mTvSave.setText("保存成功！");
-                    mTvSave.setClickable(false);
+                    boolean b = saveImage2Gallery(bitmap);
+                    if (b) {
+                        mTvSave.setText("保存成功！");
+                        mTvSave.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
+                        mTvSave.setClickable(false);
+                    }
                 } else {
                     Toast.makeText(this, "保存失败！", Toast.LENGTH_SHORT).show();
                 }
@@ -105,32 +109,39 @@ public class QREncoderActivity extends Activity implements View.OnClickListener 
         }
     }
 
-    private void saveImage2Gallery(Bitmap bmp) {
-        File appDir = new File(Environment.getExternalStorageDirectory(), "image");
-        if (!appDir.exists()) {
-            appDir.mkdir();
-        }
-        String fileName = System.currentTimeMillis() + ".jpg";
-        File file = new File(appDir, fileName);
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            MediaStore.Images.Media.insertImage(getContentResolver()
-                    , file.getAbsolutePath(), fileName, null);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    private boolean saveImage2Gallery(Bitmap bmp) {
+        boolean sdCardMounted = FileUtil.isSDCardMounted();
+        if (sdCardMounted) {
+            File appDir = new File(Environment.getExternalStorageDirectory(), "image");
+            if (!appDir.exists()) {
+                appDir.mkdir();
+            }
+            String fileName = System.currentTimeMillis() + ".jpg";
+            File file = new File(appDir, fileName);
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                MediaStore.Images.Media.insertImage(getContentResolver()
+                        , file.getAbsolutePath(), fileName, null);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
-        //通知图库刷新
-        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE
-                , Uri.parse("file://" + file.getAbsolutePath())));
+            //通知图库刷新
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE
+                    , Uri.parse("file://" + file.getAbsolutePath())));
+            return true;
+        } else {
+            Toast.makeText(this, "保存失败，请检查存储设备是否存在！", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 }
