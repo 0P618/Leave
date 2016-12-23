@@ -1,14 +1,25 @@
 package com.goldenratio.leave.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.util.StatusBarUtil;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
@@ -16,9 +27,12 @@ import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 /**
  * Created by Kiuber on 2016/12/22.
  */
-public class QREncoderActivity extends Activity {
+public class QREncoderActivity extends Activity implements View.OnClickListener {
 
     private ImageView mIvQrEncode;
+    private Bitmap bitmap = null;
+    private TextView mTvSave;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +51,8 @@ public class QREncoderActivity extends Activity {
 
     private void initView() {
         mIvQrEncode = (ImageView) findViewById(R.id.iv_qr_encoder);
+        mTvSave = (TextView) findViewById(R.id.tv_save);
+        mTvSave.setOnClickListener(this);
     }
 
     private void createChineseQRCode(final String content) {
@@ -54,11 +70,16 @@ public class QREncoderActivity extends Activity {
             protected void onPostExecute(Bitmap bitmap) {
                 if (bitmap != null) {
                     mIvQrEncode.setImageBitmap(bitmap);
+                    set(bitmap);
                 } else {
                     Toast.makeText(QREncoderActivity.this, "生成中文二维码失败", Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
+    }
+
+    private void set(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     public String getCotent4Net() {
@@ -67,5 +88,49 @@ public class QREncoderActivity extends Activity {
             ii += "张庆宝";
         }
         return ii;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_save:
+                if (bitmap != null) {
+                    saveImage2Gallery(bitmap);
+                    mTvSave.setText("保存成功！");
+                    mTvSave.setClickable(false);
+                } else {
+                    Toast.makeText(this, "保存失败！", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    private void saveImage2Gallery(Bitmap bmp) {
+        File appDir = new File(Environment.getExternalStorageDirectory(), "image");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = System.currentTimeMillis() + ".jpg";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            MediaStore.Images.Media.insertImage(getContentResolver()
+                    , file.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //通知图库刷新
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE
+                , Uri.parse("file://" + file.getAbsolutePath())));
     }
 }
