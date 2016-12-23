@@ -77,7 +77,6 @@ public class HistoryFragment extends Fragment implements AdapterView.OnItemClick
 
     /**
      * 区分假条是否已经过期
-     *
      * @param time 时间字符串
      * @return 是否过期
      */

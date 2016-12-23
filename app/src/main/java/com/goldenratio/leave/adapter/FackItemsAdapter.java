@@ -1,20 +1,23 @@
 package com.goldenratio.leave.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.bean.LeaveBean;
-import com.goldenratio.leave.ui.activity.CheckProgressActivity;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by 冰封承諾Andy on 2016/12/20 0020.
@@ -26,12 +29,36 @@ public class FackItemsAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private boolean isFailure;
+    // 柔和、明亮、温柔颜色集合
+    private String[] bgColors = {"#FFFFCC", "#CCFFFF", "#FFFF99", "#FF9966", "#FF6666",
+            "#FFCCCC", "#CCCCFF", "#CCFFCC", "#CCCCCC", "#CCFF99", "#99CCFF"
+            , "#FFFFFF", "#99CC99", "#99CCCC", "#FFCC99", "#CC9999"};
+    private ArrayList<String> bgColorList = new ArrayList<>();
+    private ArrayList<Integer> randomColorList = new ArrayList<>();
 
-    public FackItemsAdapter(Context context,List<LeaveBean> list,boolean flag){
+    public FackItemsAdapter(Context context, List<LeaveBean> list, boolean flag) {
         mContext = context;
         mLeaveList = list;
         isFailure = flag;
         mLayoutInflater = LayoutInflater.from(context);
+        generateRandomColorList();
+    }
+
+    private void generateRandomColorList() {
+
+        for (int i = 0; i < bgColors.length; i++) {
+            bgColorList.add(bgColors[i]);
+        }
+
+        for (int i = 0; i < mLeaveList.size(); i++) {
+            Random random = new Random();
+            int j = random.nextInt(bgColorList.size());
+            String strColor = bgColorList.get(j);
+            Integer color = Color.parseColor(strColor);
+            randomColorList.add(color);
+            Log.d(TAG, "generateRandomColorList: " + bgColorList.get(i));
+            bgColorList.remove(j);
+        }
     }
 
     @Override
@@ -40,7 +67,7 @@ public class FackItemsAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public LeaveBean getItem(int i) {
         return mLeaveList.get(i);
     }
 
@@ -64,44 +91,24 @@ public class FackItemsAdapter extends BaseAdapter {
         return convertView;
     }
 
-    class ViewHolder{
-        private TextView mName;
-        private TextView mStartTime;
-        private TextView mEndTime;
-        private TextView mType;
-        private TextView mShowPro;
-        private RelativeLayout mLayout;
+    class ViewHolder {
+        private TextView mTvName;
+        private TextView mTvTime;
+        private TextView mTvType;
+        private LinearLayout mLlItem;
 
         public void initView(View view) {
-            mName = (TextView) view.findViewById(R.id.name);
-            mStartTime = (TextView) view.findViewById(R.id.startTime);
-            mEndTime = (TextView) view.findViewById(R.id.endTime);
-            mType = (TextView) view.findViewById(R.id.type);
-            mShowPro = (TextView) view.findViewById(R.id.show_pro);
-            mLayout = (RelativeLayout) view.findViewById(R.id.lineItems);
+            mTvName = (TextView) view.findViewById(R.id.tv_name);
+            mTvTime = (TextView) view.findViewById(R.id.tv_time);
+            mTvType = (TextView) view.findViewById(R.id.tv_type);
+            mLlItem = (LinearLayout) view.findViewById(R.id.ll_item);
         }
 
-        public void initData(final int position) {
-            mName.setText("姓名：" + mLeaveList.get(position).getName());
-            mStartTime.setText("开始时间：" + mLeaveList.get(position).getStart_time());
-            mEndTime.setText("结束时间：" + mLeaveList.get(position).getEnd_time());
-            mType.setText("类型：" + mLeaveList.get(position).getType());
-
-            //去除缓存问题
-            mLayout.setBackgroundResource(R.drawable.fack_not_items_bg);
-            mShowPro.setVisibility(View.GONE);
-            if (!isFailure && position == 0){
-                mLayout.setBackgroundResource(R.drawable.fack_now_items_bg);
-                mShowPro.setVisibility(View.VISIBLE);
-                mShowPro.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mContext, CheckProgressActivity.class);
-                        mContext.startActivity(intent);
-                        Toast.makeText(mContext, "test!!" + position, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+        private void initData(int position) {
+            mTvName.setText(getItem(position).getName());
+            mTvTime.setText(getItem(position).getStart_time() + " 至 " + getItem(position).getEnd_time());
+            mTvType.setText(getItem(position).getType());
+            mLlItem.setBackgroundColor(randomColorList.get(position));
         }
     }
 }
