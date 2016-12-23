@@ -49,6 +49,7 @@ public class ScanActivity extends Activity implements QRCodeView.Delegate, View.
             getWindow().setAttributes(attrs);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
+        mLlScanResult.setVisibility(View.GONE);
         if (mQRCodeView.getVisibility() == View.GONE) {
             mQRCodeView.setVisibility(View.VISIBLE);
         }
