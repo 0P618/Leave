@@ -79,6 +79,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.rb_leave:
+                StatusBarUtil.setStatusBarColor(this, true, R.color.colorPrimary, false);
                 mVpContent.setCurrentItem(0);
                 break;
 //            case R.id.rb_news:
