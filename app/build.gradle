@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 dependencies {
@@ -31,9 +32,14 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile files('libs/flymeapi.jar')
-
     compile 'com.google.zxing:core:3.2.1'
     compile 'cn.bingoogolapple:bga-qrcodecore:1.1.6@aar'
     compile 'cn.bingoogolapple:bga-zxing:1.1.6@aar'
     compile 'com.github.baoyachi:StepView:1.9'
+    compile files('libs/MobCommons-2016.1107.1809.jar')
+    compile files('libs/MobTools-2016.1107.1809.jar')
+    compile files('libs/ShareSDK-Core-2.7.10.jar')
+    compile files('libs/ShareSDK-QQ-2.7.10.jar')
+    compile files('libs/ShareSDK-Wechat-2.7.10.jar')
+    compile files('libs/ShareSDK-Wechat-Core-2.7.10.jar')
 }

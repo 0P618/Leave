@@ -24,6 +24,7 @@ import java.io.IOException;
 
 import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 /**
  * Created by Kiuber on 2016/12/22.
@@ -33,6 +34,8 @@ public class QREncoderActivity extends Activity implements View.OnClickListener 
     private ImageView mIvQrEncode;
     private Bitmap bitmap = null;
     private TextView mTvSave;
+    private TextView mTvShare;
+    private String imgPath = null;
 
 
     @Override
@@ -54,6 +57,8 @@ public class QREncoderActivity extends Activity implements View.OnClickListener 
         mIvQrEncode = (ImageView) findViewById(R.id.iv_qr_encoder);
         mTvSave = (TextView) findViewById(R.id.tv_save);
         mTvSave.setOnClickListener(this);
+        mTvShare = (TextView) findViewById(R.id.tv_share);
+        mTvShare.setOnClickListener(this);
     }
 
     private void createChineseQRCode(final String content) {
@@ -106,6 +111,9 @@ public class QREncoderActivity extends Activity implements View.OnClickListener 
                     Toast.makeText(this, "保存失败！", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.tv_share:
+                shareImg();
+                break;
         }
     }
 
@@ -131,6 +139,7 @@ public class QREncoderActivity extends Activity implements View.OnClickListener 
             try {
                 MediaStore.Images.Media.insertImage(getContentResolver()
                         , file.getAbsolutePath(), fileName, null);
+                imgPath = file.getAbsolutePath();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -143,5 +152,32 @@ public class QREncoderActivity extends Activity implements View.OnClickListener 
             Toast.makeText(this, "保存失败，请检查存储设备是否存在！", Toast.LENGTH_SHORT).show();
             return false;
         }
+    }
+
+    private void shareImg() {
+        if (imgPath == null) {
+            if (saveImage2Gallery(bitmap)) {
+                showShare();
+            }
+        } else {
+            showShare();
+        }
+    }
+
+    private void showShare() {
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle("我的二维码假条");
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText("我的二维码假条");
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        oks.setImagePath(imgPath);//确保SDcard下面存在此张图片
+        // url仅在微信（包括好友和朋友圈）中使用
+//        oks.setUrl("http://sharesdk.cn");
+        Toast.makeText(this, imgPath, Toast.LENGTH_SHORT).show();
+        // 启动分享GUI
+        oks.show(this);
     }
 }

@@ -17,6 +17,8 @@ import com.goldenratio.leave.util.StatusBarUtil;
 
 import java.util.ArrayList;
 
+import cn.sharesdk.framework.ShareSDK;
+
 /**
  * Created by Kiuber on 2016/12/19.
  */
@@ -45,6 +47,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        ShareSDK.initSDK(this);
     }
 
     private void initView() {
