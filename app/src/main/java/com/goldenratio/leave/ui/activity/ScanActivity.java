@@ -3,6 +3,7 @@ package com.goldenratio.leave.ui.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
@@ -26,6 +27,7 @@ public class ScanActivity extends Activity implements QRCodeView.Delegate, View.
     private TextView mTvResult;
     private LinearLayout mLlScanResult;
     private String result = null;
+    private int CAMERA_REQUEST_CODE = 22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,11 @@ public class ScanActivity extends Activity implements QRCodeView.Delegate, View.
         mTvResult = (TextView) findViewById(R.id.tv_result);
         findViewById(R.id.tv_scan).setOnClickListener(this);
         mLlScanResult = (LinearLayout) findViewById(R.id.ll_scan_result);
-        startScan();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+        } else {
+            startScan();
+        }
     }
 
     private void startScan() {
@@ -86,6 +92,7 @@ public class ScanActivity extends Activity implements QRCodeView.Delegate, View.
 
     @Override
     public void onScanQRCodeOpenCameraError() {
+        finish();
         Toast.makeText(this, "打开相机失败，请确保硬件存在并给予调用相机权限！", Toast.LENGTH_SHORT).show();
     }
 
@@ -108,21 +115,12 @@ public class ScanActivity extends Activity implements QRCodeView.Delegate, View.
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //权限申请结果
-        if (requestCode == 10011) {
-            for (int index = 0; index < permissions.length; index++) {
-                switch (permissions[index]) {
-                    case Manifest.permission.CAMERA:
-                        if (grantResults[index] == PackageManager.PERMISSION_GRANTED) {
-                            /**用户已经受权*/
-                            startScan();
-                        } else if (grantResults[index] == PackageManager.PERMISSION_DENIED) {
-                            /**用户拒绝了权限*/
-                            Toast.makeText(this, "应用没有拍照权限，请授权！", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(this, "应用没有拍照权限，请授权！", Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                }
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startScan();
+            } else {
+                Toast.makeText(this, "请允许应用获取摄像头权限！", Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
     }
