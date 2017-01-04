@@ -1,26 +1,29 @@
 package com.goldenratio.leave.ui.fragment;
 
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goldenratio.leave.R;
-import com.goldenratio.leave.adapter.FackItemsAdapter;
+import com.goldenratio.leave.adapter.HistoryItemAdapter;
 import com.goldenratio.leave.bean.LeaveBean;
-import com.goldenratio.leave.ui.activity.GetLeaveActivity;
+import com.goldenratio.leave.util.AppUtil;
+import com.goldenratio.leave.util.GetDataUtil;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,113 +31,117 @@ import java.util.List;
  * Created by Kiuber on 2016/12/18.
  */
 
-public class HistoryFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class HistoryFragment extends Fragment {
 
     private View view;
-    private List<LeaveBean> list;
-    private AlertDialog listDialog;
-    private ListView myFack;
-    private FackItemsAdapter mNowAdapter;
+    private HistoryItemAdapter historyItemAdapter;
+    private LinearLayout mLlIng;
+    private TextView mTvName;
+    private TextView mTvType;
+    private TextView mTvTime;
+    private ListView mLvHistory;
+    private TextView mTvTip;
+    private String mStrId = null;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_history, null);
         initView();
-        initData();
+        mStrId = AppUtil.isLogin(getContext());
+        if (mStrId != null) {
+            initData();
+        } else {
+            mTvTip.setText("请先登录~");
+        }
         return view;
     }
 
-    private void initView() {
-        myFack = (ListView) view.findViewById(R.id.myFack);
 
-        myFack.setEmptyView(view.findViewById(R.id.nullText));
-        myFack.setOnItemClickListener(this);
-        myFack.setOnItemLongClickListener(this);
+    private void initView() {
+        mLlIng = (LinearLayout) view.findViewById(R.id.ll_ing);
+        mTvName = (TextView) view.findViewById(R.id.tv_name);
+        mTvType = (TextView) view.findViewById(R.id.tv_type);
+        mTvTime = (TextView) view.findViewById(R.id.tv_time);
+        mLvHistory = (ListView) view.findViewById(R.id.lv_history);
+        mTvTip = (TextView) view.findViewById(R.id.tv_tip);
     }
 
     private void initData() {
-        //TODO 测试数据
-        list = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            LeaveBean leave = new LeaveBean();
-            leave.setClassName("ruan jian");
-            leave.setName("Loli" + i);
-            leave.setRemark("这是详细内容");
-            leave.setType("病假");
-            leave.setStart_time("2016-12-21 11:11:11");
-            leave.setEnd_time("2016-12-25 11:11:11");
-            list.add(leave);
-        }
-        if (isEndTime(list.get(0).getEnd_time())) {
-            mNowAdapter = new FackItemsAdapter(getActivity(), list, true);
-        } else {
-            mNowAdapter = new FackItemsAdapter(getActivity(), list, false);
-        }
+        String url = "http://123.206.23.28/Leave.asmx/QueryRecord";
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("id");
+        ArrayList<String> strings1 = new ArrayList<>();
+        strings1.add(mStrId);
 
-        myFack.setAdapter(mNowAdapter);
-    }
-
-    /**
-     * 区分假条是否已经过期
-     * @param time 时间字符串
-     * @return 是否过期
-     */
-    private boolean isEndTime(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long EndTime = 0;
-        long nowTime = SystemClock.currentThreadTimeMillis();
-        try {
-            EndTime = sdf.parse(time).getTime();
-            if (EndTime >= nowTime) {
-                //未过期
-                return false;
-            } else {
-                return true;
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Toast.makeText(getActivity(), "获取数据错误", Toast.LENGTH_SHORT).show();
-        return true;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        LeaveBean leave = (LeaveBean) parent.getAdapter().getItem(position);
-        Intent intent = new Intent(getActivity(), GetLeaveActivity.class);
-        intent.putExtra("name", leave.getName());
-        intent.putExtra("className", leave.getClassName());
-        intent.putExtra("Stime", leave.getStart_time());
-        intent.putExtra("Etime", leave.getEnd_time());
-        intent.putExtra("context", leave.getRemark());
-        startActivity(intent);
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        showListAlertDialog(i);
-        return true;
-    }
-
-    private void showListAlertDialog(final int position) {
-        final String[] items = {"删除"};
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-        alertBuilder.setItems(items, new DialogInterface.OnClickListener() {
+        final Context context = getContext();
+        Handler handler = new Handler(new Handler.Callback() {
             @Override
-            public void onClick(DialogInterface arg0, int index) {
-                switch (index) {
+            public boolean handleMessage(Message msg) {
+                switch (msg.what) {
                     case 0:
-                        list.remove(position);
-                        ((FackItemsAdapter) myFack.getAdapter()).notifyDataSetChanged();
+                        Toast.makeText(context, "fail" + msg.obj, Toast.LENGTH_SHORT).show();
                         break;
-                    default:
+                    case 1:
+                        String jsonStr = msg.obj.toString();
+                        if (jsonStr != null) {
+                            List<LeaveBean> leaveBeenList = json2Bean(jsonStr);
+                            if (leaveBeenList != null) {
+//                            0审核失败
+//                            1审核成功
+//                            2正在审核
+                                if (leaveBeenList.get(0).getStatus().equals("正在审核")) {
+                                    mLlIng.setVisibility(View.VISIBLE);
+                                    setContent(leaveBeenList.get(0));
+                                    leaveBeenList.remove(0);
+                                }
+
+                                mTvTip.setVisibility(View.GONE);
+                                historyItemAdapter = new HistoryItemAdapter(getContext(), leaveBeenList);
+                                mLvHistory.setAdapter(historyItemAdapter);
+                            } else {
+                                mTvTip.setText("数据解析失败，请稍后再试！");
+                                Toast.makeText(context, "数据解析失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            mTvTip.setText("数据获取失败！");
+                            Toast.makeText(context, "数据获取失败！", Toast.LENGTH_SHORT).show();
+                        }
+
                         break;
                 }
-                listDialog.dismiss();
+                return false;
             }
         });
-        listDialog = alertBuilder.create();
-        listDialog.show();
+        GetDataUtil.get(url, strings, strings1, handler);
+    }
+
+    private void setContent(LeaveBean bean) {
+        mTvName.setText("姓名");
+        mTvType.setText(bean.getType());
+        mTvTime.setText(bean.getStart() + "至" + bean.getEnd());
+    }
+
+    private List<LeaveBean> json2Bean(String jsonStr) {
+        JSONArray jsonArray;
+        List<LeaveBean> leaveBeanList = new ArrayList<>();
+        try {
+            jsonArray = new JSONArray(jsonStr);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                LeaveBean leaveBean = new LeaveBean();
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                leaveBean.setStart(jsonObject.getString("start"));
+                leaveBean.setEnd(jsonObject.getString("end"));
+                leaveBean.setStatus(jsonObject.getString("status"));
+                leaveBeanList.add(leaveBean);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (leaveBeanList.size() != 0) {
+            return leaveBeanList;
+        } else {
+            return null;
+        }
     }
 }

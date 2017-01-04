@@ -5,47 +5,47 @@ package com.goldenratio.leave.bean;
  */
 
 public class LeaveBean {
-    private String start_time;
-    private String end_time;
+    private String id;
+    private String start;
+    private String end;
     private String type;
     private String remark;
-    private String name;
-    private String className;
+    private String status;
 
-    public String getClassName() {
-        return className;
+    public String getId() {
+        return id;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getStart() {
+        return start;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStart(String start) {
+        this.start = start;
     }
 
-    public String getStart_time() {
-        return start_time;
+    public String getEnd() {
+        return end;
     }
 
-    public void setStart_time(String start_time) {
-        this.start_time = start_time;
-    }
-
-    public String getEnd_time() {
-        return end_time;
-    }
-
-    public void setEnd_time(String end_time) {
-        this.end_time = end_time;
+    public void setEnd(String end) {
+        this.end = end;
     }
 
     public String getType() {
-        return type;
+        if (status.equals("0")) {
+            return "病假";
+        } else if (status.equals("1")) {
+            return "事假";
+        } else if (status.equals("2")) {
+            return "其他";
+        } else {
+            return "未知类型";
+        }
     }
 
     public void setType(String type) {
@@ -58,5 +58,21 @@ public class LeaveBean {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getStatus() {
+        if (status.equals("0")) {
+            return "审核失败";
+        } else if (status.equals("1")) {
+            return "审核通过";
+        } else if (status.equals("2")) {
+            return "正在审核";
+        } else {
+            return "未知状态";
+        }
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
