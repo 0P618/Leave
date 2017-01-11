@@ -21,6 +21,7 @@ import com.goldenratio.leave.ui.activity.MainActivity;
 import com.goldenratio.leave.ui.activity.QREncoderActivity;
 import com.goldenratio.leave.ui.activity.ScanActivity;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,6 +32,10 @@ import java.util.Date;
  */
 
 public class LeaveFragment extends Fragment implements View.OnClickListener, MainActivity.backListener {
+
+    public static final int CLASSTEACHERCHECK = 1;
+    public static final int DEPARTMENTLEADCHECK = 3;
+    public static final int MAXLIMITS = 7;
 
     private View view;
     private TimePickerView pvTime;
@@ -43,7 +48,7 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
     private RelativeLayout mRlEndTime;
     private TextView mTvEndTime;
     private TextView mTvDays;
-    private EditText mEtDays;
+    private TextView mTvDaysNum;
     private EditText mEtWhy;
     private Button mBtnSubmit;
 
@@ -79,11 +84,11 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
         mRlEndTime = (RelativeLayout) view.findViewById(R.id.rl_end_time);
         mTvEndTime = (TextView) view.findViewById(R.id.tv_end_time);
         mTvDays = (TextView) view.findViewById(R.id.tv_days);
-        mEtDays = (EditText) view.findViewById(R.id.et_days);
+        mTvDaysNum = (TextView) view.findViewById(R.id.et_days);
         mEtWhy = (EditText) view.findViewById(R.id.et_why);
         mBtnSubmit = (Button) view.findViewById(R.id.btn_submit);
 
-        Linkify.addLinks(mEtDays, Linkify.PHONE_NUMBERS);
+        Linkify.addLinks(mTvDaysNum, Linkify.PHONE_NUMBERS);
         Linkify.addLinks(mEtWhy, Linkify.PHONE_NUMBERS);
         mRlType.setOnClickListener(this);
         mRlStartTime.setOnClickListener(this);
@@ -106,16 +111,17 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
                     @Override
                     public void onTimeSelect(Date date) {
                         mTvStartTime.setText(getTime(date));
+                        mTvDaysNum.setText(difftime());
                     }
                 });
                 pvTime.show();               //弹出时间选择器
                 break;
             case R.id.rl_end_time:
                 pvTime.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {
-
                     @Override
                     public void onTimeSelect(Date date) {
                         mTvEndTime.setText(getTime(date));
+                        mTvDaysNum.setText(difftime());
                     }
                 });
                 pvTime.show();
@@ -133,6 +139,49 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
         }
     }
 
+
+    //求时间差
+    private String difftime() {
+        String sTime = mTvStartTime.getText().toString();
+        String eTime = mTvEndTime.getText().toString();
+        if (sTime.equals("请选择") || eTime.equals("请选择"))
+            return "0天0时0分";
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date start = null;
+        Date end = null;
+        try {
+            start = df.parse(sTime);
+            end = df.parse(eTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long l = end.getTime() - start.getTime();
+        long day = l / (24 * 60 * 60 * 1000);
+        long hour = (l / (60 * 60 * 1000) - day * 24);
+        long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
+//        long s = (l / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
+
+        if (day < 0 || hour < 0 || min < 0) {
+            showAlertDialog("结束时间小于开始时间，请检查后重新选择！");
+            return "请重新选择";
+        }
+        StringBuilder strB = new StringBuilder();
+        strB.append(day + "天" + hour + "时" + min + "分");
+        if (day > 0 && day <= DEPARTMENTLEADCHECK)
+            strB.append(" (需经班主任审核)");
+        else if (day >= DEPARTMENTLEADCHECK && day <= MAXLIMITS)
+            strB.append(" (需经班主任、导员审核)");
+        else if (day > MAXLIMITS) strB.append(" (请假时间超过限制)");
+        return strB.toString();
+    }
+
+    private void showAlertDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("提示");
+        builder.setMessage(message);
+        builder.setPositiveButton("取消", null);
+        builder.create().show();
+    }
 
     private void showTypeAlertDialog() {
         final String[] items = {"病假", "事假", "其它"};
