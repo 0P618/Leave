@@ -37,7 +37,7 @@ public class LeaveBean {
     }
 
     public String getType() {
-        if (status.equals("0")) {
+       /* if (status.equals("0")) {
             return "病假";
         } else if (status.equals("1")) {
             return "事假";
@@ -45,7 +45,8 @@ public class LeaveBean {
             return "其他";
         } else {
             return "未知类型";
-        }
+        }*/
+        return type;
     }
 
     public void setType(String type) {

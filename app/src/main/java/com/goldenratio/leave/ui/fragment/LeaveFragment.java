@@ -1,11 +1,13 @@
 package com.goldenratio.leave.ui.fragment;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,17 +16,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.goldenratio.leave.R;
+import com.goldenratio.leave.bean.LeaveBean;
 import com.goldenratio.leave.ui.activity.MainActivity;
 import com.goldenratio.leave.ui.activity.QREncoderActivity;
 import com.goldenratio.leave.ui.activity.ScanActivity;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 /**
@@ -51,6 +65,11 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
     private TextView mTvDaysNum;
     private EditText mEtWhy;
     private Button mBtnSubmit;
+    private EditText etWhy;
+
+    private ProgressDialog mPd;
+
+    private boolean timeFlag;
 
     @Nullable
     @Override
@@ -93,7 +112,7 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
         mRlType.setOnClickListener(this);
         mRlStartTime.setOnClickListener(this);
         mRlEndTime.setOnClickListener(this);
-
+        mBtnSubmit.setOnClickListener(this);
         view.findViewById(R.id.iv_scan).setOnClickListener(this);
         view.findViewById(R.id.iv_encoder).setOnClickListener(this);
     }
@@ -122,11 +141,23 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
                     public void onTimeSelect(Date date) {
                         mTvEndTime.setText(getTime(date));
                         mTvDaysNum.setText(difftime());
+                        mEtWhy.getText();
                     }
                 });
                 pvTime.show();
                 break;
             case R.id.btn_submit:
+                if (!mTvType.getText().equals(getString(R.string.tv_select)) && timeFlag && !mTvDaysNum.getText().equals("0天0时0分") &&
+                        !TextUtils.isEmpty(mEtWhy.getText().toString())) {
+                    LeaveBean leaveBean = new LeaveBean();
+                    leaveBean.setType(mTvType.getText().toString());
+                    leaveBean.setStart(mTvStartTime.getText().toString());
+                    leaveBean.setEnd(mTvEndTime.getText().toString());
+                    leaveBean.setRemark(mEtWhy.getText().toString());
+                    AddNewRecord(leaveBean);
+                } else {
+                    showAlertDialog("请检查输入规范后重新提交！");
+                }
                 break;
             case R.id.iv_scan:
                 startActivity(new Intent(getContext(), ScanActivity.class));
@@ -144,8 +175,10 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
     private String difftime() {
         String sTime = mTvStartTime.getText().toString();
         String eTime = mTvEndTime.getText().toString();
-        if (sTime.equals("请选择") || eTime.equals("请选择"))
+        if (sTime.equals(getString(R.string.tv_select)) || eTime.equals(getString(R.string.tv_select))) {
+            timeFlag = false;
             return "0天0时0分";
+        }
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date start = null;
         Date end = null;
@@ -163,15 +196,21 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
 
         if (day < 0 || hour < 0 || min < 0) {
             showAlertDialog("结束时间小于开始时间，请检查后重新选择！");
+            timeFlag = false;
             return "请重新选择";
         }
         StringBuilder strB = new StringBuilder();
         strB.append(day + "天" + hour + "时" + min + "分");
-        if (day > 0 && day <= DEPARTMENTLEADCHECK)
+        if (day > 0 && day <= DEPARTMENTLEADCHECK) {
             strB.append(" (需经班主任审核)");
-        else if (day >= DEPARTMENTLEADCHECK && day <= MAXLIMITS)
+            timeFlag = true;
+        } else if (day >= DEPARTMENTLEADCHECK && day <= MAXLIMITS) {
             strB.append(" (需经班主任、导员审核)");
-        else if (day > MAXLIMITS) strB.append(" (请假时间超过限制)");
+            timeFlag = true;
+        } else if (day > MAXLIMITS) {
+            strB.append(" (请假时间超过限制)");
+            timeFlag = false;
+        }
         return strB.toString();
     }
 
@@ -198,6 +237,55 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
         leaveTypeDialog.show();
     }
 
+    public void AddNewRecord(LeaveBean leaveBean) {
+        showProgressDialog();
+        String webServiceIp = "http://123.206.23.28/Leave.asmx/";
+        if (!(webServiceIp == null)) {
+            String url = webServiceIp + "NewRecord";
+            OkHttpClient okHttpClient = new OkHttpClient();
+            RequestBody body = new FormBody.Builder()
+                    .add("id", UUID.randomUUID().toString())
+                    .add("start", leaveBean.getStart())
+                    .add("end", leaveBean.getEnd())
+                    .add("type", leaveBean.getType())
+                    .add("remark", leaveBean.getRemark())
+                    .build();
+
+            final Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+            Call call = okHttpClient.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, final IOException e) {
+                    final String e1 = e.getMessage();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), e1, Toast.LENGTH_SHORT).show();
+                            closeProgressDialog();
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "提交成功", Toast.LENGTH_SHORT).show();
+                            closeProgressDialog();
+                        }
+                    });
+                }
+            });
+        } else {
+            Toast.makeText(getActivity(), "服务器地址获取失败，请重新试一次~", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public boolean callBack() {
         if (pvTime.isShowing()) {
@@ -205,5 +293,21 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
             return true;
         }
         return false;
+    }
+
+    private void closeProgressDialog() {
+        if (mPd != null && mPd.isShowing()) {
+            mPd.dismiss();
+            mPd = null;
+        }
+    }
+
+    private void showProgressDialog() {
+        if (mPd == null) {
+            mPd = new ProgressDialog(getActivity());
+            mPd.setMessage("正在提交");
+            mPd.setCancelable(false);
+            mPd.show();
+        }
     }
 }

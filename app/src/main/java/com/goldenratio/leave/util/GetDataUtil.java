@@ -50,13 +50,14 @@ public class GetDataUtil {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                handler.sendMessage(null);
+                //handler.sendMessage(null);
                 Log.d(TAG, "onFailure: " + e.getMessage());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    //下列注释处报错
                     handler.sendMessage(generateMessage(1, response.body().string()));
 //                    handler.post(new Runnable() {
 //                        @Override
