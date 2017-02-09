@@ -88,12 +88,14 @@ public class HistoryItemAdapter extends BaseAdapter {
         private TextView mTvName;
         private TextView mTvTime;
         private TextView mTvType;
+        private TextView mTvStatus;
         private LinearLayout mLlItem;
 
         public void initView(View view) {
             mTvName = (TextView) view.findViewById(R.id.tv_name);
             mTvTime = (TextView) view.findViewById(R.id.tv_time);
             mTvType = (TextView) view.findViewById(R.id.tv_type);
+            mTvStatus = (TextView) view.findViewById(R.id.tv_status);
             mLlItem = (LinearLayout) view.findViewById(R.id.ll_item);
         }
 
@@ -101,6 +103,7 @@ public class HistoryItemAdapter extends BaseAdapter {
 //            mTvName.setText(getItem(position).getName());
             mTvTime.setText(getItem(position).getStart() + " 至 " + getItem(position).getEnd());
             mTvType.setText(getItem(position).getType());
+            mTvStatus.setText(getItem(position).getStatus());
 //            mLlItem.setBackgroundColor(randomColorList.get(position));
         }
     }

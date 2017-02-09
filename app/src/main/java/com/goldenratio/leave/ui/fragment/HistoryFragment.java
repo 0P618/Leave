@@ -90,6 +90,7 @@ public class HistoryFragment extends Fragment {
 //                            0审核失败
 //                            1审核成功
 //                            2正在审核
+
                                 if (leaveBeenList.get(0).getStatus().equals("正在审核")) {
                                     mLlIng.setVisibility(View.VISIBLE);
                                     setContent(leaveBeenList.get(0));

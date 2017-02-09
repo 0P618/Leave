@@ -68,6 +68,10 @@ public class LeaveBean {
             return "审核通过";
         } else if (status.equals("2")) {
             return "正在审核";
+        } else if (status.equals("3")) {
+            return "未审核";
+        } else if (status.equals("4")) {
+            return "超出假期";
         } else {
             return "未知状态";
         }
