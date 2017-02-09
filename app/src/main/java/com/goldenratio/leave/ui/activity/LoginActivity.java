@@ -1,11 +1,15 @@
 package com.goldenratio.leave.ui.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -17,11 +21,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goldenratio.leave.R;
+import com.goldenratio.leave.util.GetDataUtil;
 import com.goldenratio.leave.util.MD5Util;
 import com.goldenratio.leave.util.SharedPreferenceUtil;
 import com.goldenratio.leave.util.StatusBarUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kiuber on 2016/12/20.
@@ -36,6 +45,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
     private ImageView mIvClear2;
     private ImageView mIvPwdState;
     private CheckBox mCbLoginState;
+    private TextView mTvLogin;
+    private ProgressDialog progressDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -50,7 +61,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
     private void initView() {
         findViewById(R.id.iv_close).setOnClickListener(this);
 
-        findViewById(R.id.tv_login).setOnClickListener(this);
+        mTvLogin = (TextView) findViewById(R.id.tv_login);
+        mTvLogin.setOnClickListener(this);
         findViewById(R.id.tv_question).setOnClickListener(this);
 
         mIvClear1 = (ImageView) findViewById(R.id.iv_clear_1);
@@ -112,6 +124,10 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
                 finish();
                 break;
             case R.id.tv_login:
+                progressDialog = new ProgressDialog(this);
+                progressDialog.setMessage("正在登陆");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 String id = mEtId.getText().toString();
                 String pwd = mEtPwd.getText().toString();
                 if (id.equals("")) {
@@ -119,42 +135,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
                 } else if (pwd.equals("")) {
                     Toast.makeText(this, "请输入密码！", Toast.LENGTH_SHORT).show();
                 } else {
-                    String userInfo = getUserInfo();
-                    if (userInfo == null) {
-                        Toast.makeText(this, "学号或者密码错误！", Toast.LENGTH_SHORT).show();
-                    } else {
-                        ArrayList<String> keys = new ArrayList<>();
-                        keys.add("id");
-                        keys.add("nickname");
-                        keys.add("sex");
-                        keys.add("autograph");
-                        ArrayList<String> values = new ArrayList<>();
-                        values.add(id);
-                        values.add("Kiuber");
-                        values.add("男");
-                        values.add("革命尚未成功！");
-                        if (mCbLoginState.isChecked()) {
-                            // 保持登陆
-                            // login_state 由登陆状态与id的MD5组成。1为登陆 0为未登陆
-                            boolean b = SharedPreferenceUtil.putOne(LoginActivity.this, "app_config", "login_state", "1" + MD5Util.createMD5(id));
-                            boolean user_info = SharedPreferenceUtil.putMultiple(LoginActivity.this, "user_info", keys, values);
-                            if (b && user_info) {
-                                Toast.makeText(this, "登陆成功！", Toast.LENGTH_SHORT).show();
-                                setResult(RESULT_OK);
-                                finish();
-                            } else {
-                                Toast.makeText(this, "信息保存失败，请重试！", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            //不保持登陆
-                            boolean user_info = SharedPreferenceUtil.putMultiple(LoginActivity.this, "user_info", keys, values);
-                            if (user_info) {
-                            } else {
-                                Toast.makeText(this, "信息保存失败，请重试！", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                    }
+                    getUserInfo(id, pwd);
                 }
                 break;
             case R.id.iv_clear_1:
@@ -207,7 +188,115 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
         }
     }
 
-    private String getUserInfo() {
-        return "1513640218";
+    private void getUserInfo(String id, String pwd) {
+        Handler handler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                int what = msg.what;
+                String obj = msg.obj.toString();
+                if (what == 1) {
+                    ArrayList<String> loginSuccess = isLoginSuccess(obj);
+                    if (loginSuccess.size() == 2) {
+                        String s = loginSuccess.get(1);
+                        if (TextUtils.equals(s, "登陆成功")) {
+                            saveUserInfo(obj);
+                            finish();
+                            progressDialog.dismiss();
+                        } else {
+                            Toast.makeText(LoginActivity.this, loginSuccess.get(1), Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        }
+                    } else {
+                        Toast.makeText(LoginActivity.this, loginSuccess.get(0), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+                } else if (what == 0) {
+                    Toast.makeText(LoginActivity.this, obj, Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                } else {
+                    Toast.makeText(LoginActivity.this, "本地未知错误~", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+                return false;
+            }
+        });
+        GetDataUtil.login(id, pwd, handler);
+    }
+
+    private ArrayList<String> isLoginSuccess(String json) {
+        ArrayList<String> strings = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            String code = jsonObject.getString("code");
+            String remark = jsonObject.getString("remark");
+            strings.add(code);
+            strings.add(remark);
+            return strings;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            strings.add(e.getMessage());
+            return strings;
+        }
+    }
+
+    private void saveUserInfo(String obj) {
+        List<ArrayList<String>> arrayLists = decodeUserInfo(obj);
+        if (mCbLoginState.isChecked()) {
+            // 保持登陆
+            // login_state 由登陆状态与id的MD5组成。1为登陆 0为未登陆
+            String id = arrayLists.get(1).get(0);
+            boolean b = SharedPreferenceUtil.putOne(LoginActivity.this, "app_config", "login_state", "1" + MD5Util.createMD5(id));
+            boolean user_info = SharedPreferenceUtil.putMultiple(LoginActivity.this, "user_info", arrayLists.get(0), arrayLists.get(1));
+            if (b && user_info) {
+                Toast.makeText(this, "登陆成功！", Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
+                finish();
+            } else {
+                Toast.makeText(this, "信息保存失败，请重试！", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            //不保持登陆
+            boolean user_info = SharedPreferenceUtil.putMultiple(LoginActivity.this, "user_info", arrayLists.get(0), arrayLists.get(1));
+            if (user_info) {
+                Toast.makeText(this, "登陆成功~", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "信息保存失败，请重试！", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private List<ArrayList<String>> decodeUserInfo(String json) {
+        List<ArrayList<String>> arrayLists = new ArrayList<ArrayList<String>>();
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("id");
+        strings.add("nickname");
+        strings.add("name");
+        strings.add("sex");
+        strings.add("avatar");
+        strings.add("aClass");
+        strings.add("autograph");
+        arrayLists.add(strings);
+        try {
+            ArrayList<String> strings1 = new ArrayList<>();
+            JSONObject jsonObject = new JSONObject(json);
+            String id = jsonObject.getString("id");
+            String nickname = jsonObject.getString("nickname");
+            String name = jsonObject.getString("name");
+            String sex = jsonObject.getString("sex");
+            String avatar = jsonObject.getString("avatar");
+            String aClass = jsonObject.getString("class");
+            String autograph = jsonObject.getString("autograph");
+            strings1.add(id);
+            strings1.add(nickname);
+            strings1.add(name);
+            strings1.add(sex);
+            strings1.add(avatar);
+            strings1.add(aClass);
+            strings1.add(autograph);
+            arrayLists.add(strings1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return arrayLists;
     }
 }

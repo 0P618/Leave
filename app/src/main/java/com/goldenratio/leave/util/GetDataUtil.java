@@ -80,6 +80,37 @@ public class GetDataUtil {
         });
     }
 
+    public static void login(String id, String pwd, final Handler handler) {
+        String url = "http://123.206.23.28/Leave.asmx/Login";
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("id", id);
+        builder.add("pwd", pwd);
+        RequestBody body = builder.build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                handler.sendMessage(generateMessage(0, e.getMessage()));
+                Log.d(TAG, "onFailure: " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()){
+                    handler.sendMessage(generateMessage(1, response.body().string()));
+                }else{
+                    handler.sendMessage(generateMessage(0, response.body().string()));
+                }
+            }
+        });
+    }
+
     private static Message generateMessage(int what, Object object) {
         Message message = new Message();
         message.what = what;
