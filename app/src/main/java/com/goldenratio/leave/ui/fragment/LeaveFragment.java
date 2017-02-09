@@ -21,9 +21,11 @@ import android.widget.Toast;
 import com.bigkoo.pickerview.TimePickerView;
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.bean.LeaveBean;
+import com.goldenratio.leave.ui.activity.LoginActivity;
 import com.goldenratio.leave.ui.activity.MainActivity;
 import com.goldenratio.leave.ui.activity.QREncoderActivity;
 import com.goldenratio.leave.ui.activity.ScanActivity;
+import com.goldenratio.leave.util.AppUtil;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -163,7 +165,13 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
                 startActivity(new Intent(getContext(), ScanActivity.class));
                 break;
             case R.id.iv_encoder:
-                startActivity(new Intent(getContext(), QREncoderActivity.class));
+                String status = AppUtil.isLogin(getContext());
+                if (status != null) {
+                    startActivity(new Intent(getContext(), QREncoderActivity.class));
+                } else {
+                    Toast.makeText(getContext(), "请先登录~", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getContext(), LoginActivity.class));
+                }
                 break;
             default:
                 break;
