@@ -55,6 +55,16 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
         setContentView(R.layout.activity_login);
         initView();
         StatusBarUtil.setStatusBarColor(this, true, R.color.layout_default_bg_color, true);
+        initData();
+    }
+
+    private void initData() {
+        String id = SharedPreferenceUtil.getOne(this, GlobalVariable.FILE_NAME_APP_CONFIG, "id");
+        if (id != null) {
+            mEtId.setText(id);
+            // 下面代码没用，有空再试。
+//            mEtPwd.setFocusable(true);
+        }
     }
 
 
@@ -245,8 +255,15 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
             // 保持登陆
             // login_state 由登陆状态与id的MD5组成。1为登陆 0为未登陆
             String id = arrayLists.get(1).get(0);
-            boolean b = SharedPreferenceUtil.putOne(LoginActivity.this, GlobalVariable.FILE_NAME_APP_CONFIG, "login_state", "1" + MD5Util.createMD5(id));
-            boolean user_info = SharedPreferenceUtil.putMultiple(LoginActivity.this, "user_info", arrayLists.get(0), arrayLists.get(1));
+            ArrayList<String> strings = new ArrayList<>();
+            strings.add("login_state");
+            strings.add("id");
+
+            ArrayList<String> strings1 = new ArrayList<>();
+            strings1.add("1" + MD5Util.createMD5(id));
+            strings1.add(arrayLists.get(1).get(0));
+            boolean b = SharedPreferenceUtil.putMultiple(this, GlobalVariable.FILE_NAME_APP_CONFIG, strings, strings1);
+            boolean user_info = SharedPreferenceUtil.putMultiple(LoginActivity.this, GlobalVariable.FILE_NAME_USER_INFO, arrayLists.get(0), arrayLists.get(1));
             if (b && user_info) {
                 Toast.makeText(this, "登陆成功！", Toast.LENGTH_SHORT).show();
                 setResult(RESULT_OK);
