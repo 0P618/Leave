@@ -37,16 +37,22 @@ public class LeaveBean {
     }
 
     public String getType() {
-       /* if (status.equals("0")) {
+        if (type.equals("病假")) {
+            return "0";
+        } else if (type.equals("事假")) {
+            return "1";
+        } else if (type.equals("其他")) {
+            return "2";
+        } else if (type.equals("0")) {
             return "病假";
-        } else if (status.equals("1")) {
+        } else if (type.equals("1")) {
             return "事假";
-        } else if (status.equals("2")) {
+        } else if (type.equals("2")) {
             return "其他";
         } else {
-            return "未知类型";
-        }*/
-        return type;
+            return "null";
+        }
+//        return type;
     }
 
     public void setType(String type) {

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +27,14 @@ import com.goldenratio.leave.ui.activity.MainActivity;
 import com.goldenratio.leave.ui.activity.QREncoderActivity;
 import com.goldenratio.leave.ui.activity.ScanActivity;
 import com.goldenratio.leave.util.AppUtil;
+import com.goldenratio.leave.util.GlobalVariable;
+import com.goldenratio.leave.util.SharedPreferenceUtil;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -149,16 +151,20 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
                 pvTime.show();
                 break;
             case R.id.btn_submit:
-                if (!mTvType.getText().equals(getString(R.string.tv_select)) && timeFlag && !mTvDaysNum.getText().equals("0天0时0分") &&
-                        !TextUtils.isEmpty(mEtWhy.getText().toString())) {
-                    LeaveBean leaveBean = new LeaveBean();
-                    leaveBean.setType(mTvType.getText().toString());
-                    leaveBean.setStart(mTvStartTime.getText().toString());
-                    leaveBean.setEnd(mTvEndTime.getText().toString());
-                    leaveBean.setRemark(mEtWhy.getText().toString());
-                    AddNewRecord(leaveBean);
+                if (AppUtil.isLogin(getContext()) != null) {
+                    if (!mTvType.getText().equals(getString(R.string.tv_select)) && timeFlag && !mTvDaysNum.getText().equals("0天0时0分") &&
+                            !TextUtils.isEmpty(mEtWhy.getText().toString())) {
+                        LeaveBean leaveBean = new LeaveBean();
+                        leaveBean.setType(mTvType.getText().toString());
+                        leaveBean.setStart(mTvStartTime.getText().toString());
+                        leaveBean.setEnd(mTvEndTime.getText().toString());
+                        leaveBean.setRemark(mEtWhy.getText().toString());
+                        AddNewRecord(leaveBean);
+                    } else {
+                        showAlertDialog("请检查输入规范后重新提交！");
+                    }
                 } else {
-                    showAlertDialog("请检查输入规范后重新提交！");
+                    Toast.makeText(getContext(), "请先登录~", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.iv_scan:
@@ -170,16 +176,17 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
                     startActivity(new Intent(getContext(), QREncoderActivity.class));
                 } else {
                     Toast.makeText(getContext(), "请先登录~", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getContext(), LoginActivity.class));
                 }
                 break;
             default:
                 break;
         }
+
     }
 
 
     //求时间差
+
     private String difftime() {
         String sTime = mTvStartTime.getText().toString();
         String eTime = mTvEndTime.getText().toString();
@@ -252,7 +259,7 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
             String url = webServiceIp + "NewRecord";
             OkHttpClient okHttpClient = new OkHttpClient();
             RequestBody body = new FormBody.Builder()
-                    .add("id", UUID.randomUUID().toString())
+                    .add("id", SharedPreferenceUtil.getOne(getContext(), GlobalVariable.FILE_NAME_USER_INFO, "id"))
                     .add("start", leaveBean.getStart())
                     .add("end", leaveBean.getEnd())
                     .add("type", leaveBean.getType())
@@ -279,11 +286,16 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
+                public void onResponse(Call call, final Response response) throws IOException {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(getActivity(), "提交成功", Toast.LENGTH_SHORT).show();
+                            try {
+                                Log.d("TAGTAGTAGTAG", "run: " + response.body().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             closeProgressDialog();
                         }
                     });
