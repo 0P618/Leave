@@ -9,7 +9,6 @@ import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -198,8 +197,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
                 if (what == 1) {
                     ArrayList<String> loginSuccess = isLoginSuccess(obj);
                     if (loginSuccess.size() == 2) {
-                        String s = loginSuccess.get(1);
-                        if (TextUtils.equals(s, "登陆成功")) {
+                        String s = loginSuccess.get(0);
+                        if (s.equals(GlobalVariable.CODE_LOGIN_SUCCESS)) {
                             saveUserInfo(obj);
                             finish();
                             progressDialog.dismiss();
