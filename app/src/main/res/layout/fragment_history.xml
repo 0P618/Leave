@@ -5,20 +5,28 @@
     android:background="@color/gainsboro"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:gravity="center"
         android:padding="@dimen/normal_space">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="请假历史"
             android:textColor="@android:color/white"
             android:textSize="@dimen/title_text_size" />
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/normal_space"
+            android:src="@drawable/ic_help_black_24dp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_ing"

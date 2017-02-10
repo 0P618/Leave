@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ import java.util.List;
  * Created by Kiuber on 2016/12/18.
  */
 
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private HistoryItemAdapter historyItemAdapter;
@@ -65,6 +66,7 @@ public class HistoryFragment extends Fragment {
         mTvTime = (TextView) view.findViewById(R.id.tv_time);
         mLvHistory = (ListView) view.findViewById(R.id.lv_history);
         mTvTip = (TextView) view.findViewById(R.id.tv_tip);
+        view.findViewById(R.id.iv_help).setOnClickListener(this);
     }
 
     private void initData() {
@@ -143,6 +145,19 @@ public class HistoryFragment extends Fragment {
             return leaveBeanList;
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_help:
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("帮助");
+                builder.setMessage("正在审核：在假条开始时间之前班主任正在审核\n\n审核失败：在假条开始时间之前班主任审核失败\n\n审核通过：在假条开始时间之前班主任审核通过\n\n未审核：在假条开始时间之前班主任未进行审核");
+                builder.setPositiveButton("我知道了", null);
+                builder.show();
+                break;
         }
     }
 }
