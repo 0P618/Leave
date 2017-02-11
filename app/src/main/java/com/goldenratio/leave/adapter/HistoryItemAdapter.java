@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.bean.LeaveBean;
+import com.goldenratio.leave.util.GlobalVariable;
+import com.goldenratio.leave.util.SharedPreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +31,13 @@ public class HistoryItemAdapter extends BaseAdapter {
             , "#FFFFFF", "#99CC99", "#99CCCC", "#FFCC99", "#CC9999"};
     private ArrayList<String> bgColorList = new ArrayList<>();
     private ArrayList<Integer> randomColorList = new ArrayList<>();
+    private String name;
 
     public HistoryItemAdapter(Context context, List<LeaveBean> list) {
         mContext = context;
         mLeaveList = list;
         mLayoutInflater = LayoutInflater.from(context);
+        name = SharedPreferenceUtil.getOne(context, GlobalVariable.FILE_NAME_USER_INFO, "name");
 //        generateRandomColorList();
     }
 
@@ -90,20 +94,26 @@ public class HistoryItemAdapter extends BaseAdapter {
         private TextView mTvType;
         private TextView mTvStatus;
         private LinearLayout mLlItem;
+        private TextView mTvRemark;
+        private TextView mTvCreated;
 
         public void initView(View view) {
             mTvName = (TextView) view.findViewById(R.id.tv_name);
             mTvTime = (TextView) view.findViewById(R.id.tv_time);
             mTvType = (TextView) view.findViewById(R.id.tv_type);
             mTvStatus = (TextView) view.findViewById(R.id.tv_status);
+            mTvRemark = (TextView) view.findViewById(R.id.tv_remark);
+            mTvCreated = (TextView) view.findViewById(R.id.tv_created);
             mLlItem = (LinearLayout) view.findViewById(R.id.ll_item);
         }
 
         private void initData(int position) {
-//            mTvName.setText(getItem(position).getName());
+            mTvName.setText(name);
             mTvTime.setText(getItem(position).getStart() + " 至 " + getItem(position).getEnd());
             mTvType.setText(getItem(position).getType());
             mTvStatus.setText(getItem(position).getStatus());
+            mTvRemark.setText(getItem(position).getRemark());
+            mTvCreated.setText(getItem(position).getCreated());
 //            mLlItem.setBackgroundColor(randomColorList.get(position));
         }
     }

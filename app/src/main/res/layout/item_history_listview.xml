@@ -38,6 +38,16 @@
                 android:text="类型：" />
 
             <TextView
+                android:id="@+id/tv_remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/little_space"
+                android:drawableLeft="@drawable/ic_label_black_24dp"
+                android:drawablePadding="@dimen/normal_space"
+                android:gravity="center"
+                android:text="备注：" />
+
+            <TextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,15 +58,30 @@
                 android:text="时间：" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_status"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/normal_space"
-            android:background="#789456"
-            android:paddingLeft="@dimen/normal_space"
-            android:paddingRight="@dimen/normal_space"
-            android:text="正在审核" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="#789456"
+                android:paddingLeft="@dimen/normal_space"
+                android:paddingRight="@dimen/normal_space"
+                android:text="正在审核" />
+
+            <TextView
+                android:id="@+id/tv_created"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="2016-06-06 12:00:00"
+                android:textSize="10sp" />
+        </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

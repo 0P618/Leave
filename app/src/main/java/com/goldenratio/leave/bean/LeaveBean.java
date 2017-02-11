@@ -11,6 +11,15 @@ public class LeaveBean {
     private String type;
     private String remark;
     private String status;
+    private String created;
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
 
     public String getId() {
         return id;

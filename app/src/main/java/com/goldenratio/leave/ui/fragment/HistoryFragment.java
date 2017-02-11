@@ -136,7 +136,9 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
                 leaveBean.setStart(jsonObject.getString("start"));
                 leaveBean.setEnd(jsonObject.getString("end"));
                 leaveBean.setStatus(jsonObject.getString("status"));
+                leaveBean.setRemark(jsonObject.getString("remark"));
                 leaveBean.setType(jsonObject.getString("type"));
+                leaveBean.setCreated(jsonObject.getString("created"));
                 leaveBeanList.add(leaveBean);
             }
         } catch (JSONException e) {
