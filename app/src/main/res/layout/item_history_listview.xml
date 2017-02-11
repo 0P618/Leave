@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/little_space"
-                android:drawableLeft="@drawable/ic_label_black_24dp"
+                android:drawableLeft="@drawable/ic_description_black_24dp"
                 android:drawablePadding="@dimen/normal_space"
                 android:gravity="center"
                 android:text="备注：" />
