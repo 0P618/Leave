@@ -218,7 +218,7 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
         }
         StringBuilder strB = new StringBuilder();
         strB.append(day + "天" + hour + "时" + min + "分");
-        if (day > 0 && day <= DEPARTMENTLEADCHECK) {
+        if (l > 0 && day <= DEPARTMENTLEADCHECK) {
             strB.append(" (需经班主任审核)");
             timeFlag = true;
         } else if (day >= DEPARTMENTLEADCHECK && day <= MAXLIMITS) {
@@ -295,6 +295,9 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
                         getActivity().runOnUiThread(new TimerTask() {
                             @Override
                             public void run() {
+                                recStaus();
+                                //   mBtnSubmit.setEnabled(false);
+                                //   mBtnSubmit.setText("请耐心等待审核");
                                 Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -331,6 +334,15 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
             return true;
         }
         return false;
+    }
+
+    private void recStaus() {
+        mTvType.setText(R.string.tv_select);
+        mTvStartTime.setText(R.string.tv_select);
+        mTvStartTime.setText(R.string.tv_select);
+        mTvEndTime.setText(R.string.tv_select);
+        mTvDaysNum.setText("");
+        mEtWhy.setText("");
     }
 
     private void closeProgressDialog() {

@@ -194,7 +194,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:background="@drawable/default_fill_big"
+                android:background="@drawable/btn_selector"
                 android:text="提交"
                 android:textColor="@color/white"
                 android:textSize="19sp"/>
