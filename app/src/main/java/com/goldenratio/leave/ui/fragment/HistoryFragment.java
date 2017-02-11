@@ -1,5 +1,6 @@
 package com.goldenratio.leave.ui.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,8 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,8 @@ import com.goldenratio.leave.adapter.HistoryItemAdapter;
 import com.goldenratio.leave.bean.LeaveBean;
 import com.goldenratio.leave.util.AppUtil;
 import com.goldenratio.leave.util.GetDataUtil;
+import com.goldenratio.leave.util.GlobalVariable;
+import com.goldenratio.leave.util.SharedPreferenceUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,13 +39,11 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private HistoryItemAdapter historyItemAdapter;
-    private LinearLayout mLlIng;
-    private TextView mTvName;
-    private TextView mTvType;
-    private TextView mTvTime;
     private ListView mLvHistory;
     private TextView mTvTip;
     private String mStrId = null;
+    private ProgressDialog progressDialog;
+    private RelativeLayout mRlIng;
 
     @Nullable
     @Override
@@ -60,13 +61,11 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
 
 
     private void initView() {
-        mLlIng = (LinearLayout) view.findViewById(R.id.ll_ing);
-        mTvName = (TextView) view.findViewById(R.id.tv_name);
-        mTvType = (TextView) view.findViewById(R.id.tv_type);
-        mTvTime = (TextView) view.findViewById(R.id.tv_time);
+        mRlIng = (RelativeLayout) view.findViewById(R.id.rl_ing);
         mLvHistory = (ListView) view.findViewById(R.id.lv_history);
         mTvTip = (TextView) view.findViewById(R.id.tv_tip);
         view.findViewById(R.id.iv_help).setOnClickListener(this);
+        view.findViewById(R.id.iv_refresh).setOnClickListener(this);
     }
 
     private void initData() {
@@ -94,9 +93,11 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
 //                            2正在审核
 
                                 if (leaveBeenList.get(0).getStatus().equals("正在审核")) {
-                                    mLlIng.setVisibility(View.VISIBLE);
+                                    mRlIng.setVisibility(View.VISIBLE);
                                     setContent(leaveBeenList.get(0));
                                     leaveBeenList.remove(0);
+                                } else {
+                                    mRlIng.setVisibility(View.GONE);
                                 }
 
                                 mTvTip.setVisibility(View.GONE);
@@ -113,6 +114,9 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
 
                         break;
                 }
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
                 return false;
             }
         });
@@ -120,9 +124,19 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setContent(LeaveBean bean) {
-        mTvName.setText("姓名");
+        TextView mTvName = (TextView) mRlIng.findViewById(R.id.tv_name);
+        TextView mTvTime = (TextView) mRlIng.findViewById(R.id.tv_time);
+        TextView mTvType = (TextView) mRlIng.findViewById(R.id.tv_type);
+        TextView mTvStatus = (TextView) mRlIng.findViewById(R.id.tv_status);
+        TextView mTvRemark = (TextView) mRlIng.findViewById(R.id.tv_remark);
+        TextView mTvCreated = (TextView) mRlIng.findViewById(R.id.tv_created);
+
+        mTvName.setText(SharedPreferenceUtil.getOne(getContext(), GlobalVariable.FILE_NAME_USER_INFO, "name"));
+        mTvTime.setText(bean.getStart() + " 至 " + bean.getEnd());
         mTvType.setText(bean.getType());
-        mTvTime.setText(bean.getStart() + "至" + bean.getEnd());
+        mTvStatus.setText(bean.getStatus());
+        mTvRemark.setText(bean.getRemark());
+        mTvCreated.setText(bean.getCreated());
     }
 
     private List<LeaveBean> json2Bean(String jsonStr) {
@@ -160,6 +174,12 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
                 builder.setMessage("正在审核：在假条开始时间之前班主任正在审核\n\n审核失败：在假条开始时间之前班主任审核失败\n\n审核通过：在假条开始时间之前班主任审核通过\n\n未审核：在假条开始时间之前班主任未进行审核");
                 builder.setPositiveButton("我知道了", null);
                 builder.show();
+                break;
+            case R.id.iv_refresh:
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("正在刷新~");
+                progressDialog.show();
+                initData();
                 break;
         }
     }
