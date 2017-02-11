@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 import com.bigkoo.pickerview.TimePickerView;
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.bean.LeaveBean;
-import com.goldenratio.leave.ui.activity.LoginActivity;
 import com.goldenratio.leave.ui.activity.MainActivity;
 import com.goldenratio.leave.ui.activity.QREncoderActivity;
 import com.goldenratio.leave.ui.activity.ScanActivity;
@@ -30,11 +28,15 @@ import com.goldenratio.leave.util.AppUtil;
 import com.goldenratio.leave.util.GlobalVariable;
 import com.goldenratio.leave.util.SharedPreferenceUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimerTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -264,6 +266,7 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
                     .add("end", leaveBean.getEnd())
                     .add("type", leaveBean.getType())
                     .add("remark", leaveBean.getRemark())
+                    .add("uuid", SharedPreferenceUtil.getOne(getContext(), GlobalVariable.FILE_NAME_USER_INFO, "uuid"))
                     .build();
 
             final Request request = new Request.Builder()
@@ -287,22 +290,37 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
 
                 @Override
                 public void onResponse(Call call, final Response response) throws IOException {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getActivity(), "提交成功", Toast.LENGTH_SHORT).show();
-                            try {
-                                Log.d("TAGTAGTAGTAG", "run: " + response.body().string());
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                    if (response.isSuccessful()) {
+                        final String s = parseNewRecordResult(response.body().string());
+                        getActivity().runOnUiThread(new TimerTask() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
                             }
-                            closeProgressDialog();
-                        }
-                    });
+                        });
+                    } else {
+                        Toast.makeText(getContext(), response.body().string(), Toast.LENGTH_SHORT).show();
+                    }
+                    closeProgressDialog();
                 }
             });
         } else {
             Toast.makeText(getActivity(), "服务器地址获取失败，请重新试一次~", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String parseNewRecordResult(String json) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            String code = jsonObject.getString("code");
+            if (code.equals("2001")) {
+                return "提交成功~";
+            } else {
+                return jsonObject.getString("remark");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return e.getMessage();
         }
     }
 

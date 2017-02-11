@@ -292,6 +292,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
         strings.add("avatar");
         strings.add("aClass");
         strings.add("autograph");
+        strings.add("uuid");
         arrayLists.add(strings);
         try {
             ArrayList<String> strings1 = new ArrayList<>();
@@ -303,6 +304,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
             String avatar = jsonObject.getString("avatar");
             String aClass = jsonObject.getString("class");
             String autograph = jsonObject.getString("autograph");
+            String uuid = jsonObject.getString("uuid");
             strings1.add(id);
             strings1.add(nickname);
             strings1.add(name);
@@ -310,6 +312,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
             strings1.add(avatar);
             strings1.add(aClass);
             strings1.add(autograph);
+            strings1.add(uuid);
             arrayLists.add(strings1);
         } catch (JSONException e) {
             e.printStackTrace();
