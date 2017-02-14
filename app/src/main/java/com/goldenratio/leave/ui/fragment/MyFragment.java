@@ -13,6 +13,8 @@ import com.goldenratio.leave.R;
 import com.goldenratio.leave.ui.activity.LoginActivity;
 import com.goldenratio.leave.ui.activity.SettingActivity;
 import com.goldenratio.leave.util.AppUtil;
+import com.goldenratio.leave.util.GlobalConstant;
+import com.goldenratio.leave.util.SharedPreferenceUtil;
 
 import static android.app.Activity.RESULT_OK;
 import static com.goldenratio.leave.util.AppUtil.APP_SETTING;
@@ -40,13 +42,20 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         mTvLoginState = (TextView) view.findViewById(R.id.tv_login_state);
         mTvLoginState.setOnClickListener(this);
         view.findViewById(R.id.iv_setting).setOnClickListener(this);
+        view.findViewById(R.id.tv_data).setOnClickListener(this);
+        view.findViewById(R.id.tv_scan).setOnClickListener(this);
+        view.findViewById(R.id.tv_encoder).setOnClickListener(this);
+        view.findViewById(R.id.tv_change_pwd).setOnClickListener(this);
+        view.findViewById(R.id.tv_help).setOnClickListener(this);
+        view.findViewById(R.id.tv_feedback).setOnClickListener(this);
     }
 
     private void initUserInfo() {
         String id = AppUtil.isLogin(getContext());
         if (id != null) {
             // 用户已登陆
-            mTvLoginState.setText(id);
+            String name = SharedPreferenceUtil.getOne(getContext(), GlobalConstant.FILE_NAME_USER_INFO, "name");
+            mTvLoginState.setText(name);
             mTvLoginState.setClickable(false);
         }
     }

@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gainsboro"
+    android:background="@color/normal_bg_color"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="200dp"
         android:background="@color/colorSecondary">
 
         <ImageView
@@ -45,4 +44,108 @@
             android:text="立即登陆"
             android:textColor="@android:color/white" />
     </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_space"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/normal_space"
+                android:background="@drawable/selector_my_item"
+                android:drawableRight="@mipmap/news_cate_arr"
+                android:padding="@dimen/normal_space"
+                android:text="个人资料"
+                android:textSize="@dimen/text_size_default" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/normal_space"
+                android:background="@drawable/rounded_rectangle_my_item_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_scan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_my_item"
+                    android:drawableRight="@mipmap/news_cate_arr"
+                    android:padding="@dimen/normal_space"
+                    android:text="扫一扫"
+                    android:textSize="@dimen/text_size_default" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/normal_bg_color" />
+
+                <TextView
+                    android:id="@+id/tv_encoder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_my_item"
+                    android:drawableRight="@mipmap/news_cate_arr"
+                    android:padding="@dimen/normal_space"
+                    android:text="我的二维码请假条"
+                    android:textSize="@dimen/text_size_default" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/normal_space"
+                android:background="@drawable/rounded_rectangle_my_item_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_change_pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_my_item"
+                    android:drawableRight="@mipmap/news_cate_arr"
+                    android:padding="@dimen/normal_space"
+                    android:text="修改密码"
+                    android:textSize="@dimen/text_size_default" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/normal_bg_color" />
+
+                <TextView
+                    android:id="@+id/tv_help"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_my_item"
+                    android:drawableRight="@mipmap/news_cate_arr"
+                    android:padding="@dimen/normal_space"
+                    android:text="帮助"
+                    android:textSize="@dimen/text_size_default" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/normal_space"
+                android:layout_marginTop="@dimen/normal_space"
+                android:background="@drawable/selector_my_item"
+                android:drawableRight="@mipmap/news_cate_arr"
+                android:padding="@dimen/normal_space"
+                android:text="反馈"
+                android:textSize="@dimen/text_size_default" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
