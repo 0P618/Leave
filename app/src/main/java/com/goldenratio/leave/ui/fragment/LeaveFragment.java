@@ -25,7 +25,7 @@ import com.goldenratio.leave.ui.activity.MainActivity;
 import com.goldenratio.leave.ui.activity.QREncoderActivity;
 import com.goldenratio.leave.ui.activity.ScanActivity;
 import com.goldenratio.leave.util.AppUtil;
-import com.goldenratio.leave.util.GlobalVariable;
+import com.goldenratio.leave.util.GlobalConstant;
 import com.goldenratio.leave.util.SharedPreferenceUtil;
 
 import org.json.JSONException;
@@ -261,12 +261,12 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
             String url = webServiceIp + "NewRecord";
             OkHttpClient okHttpClient = new OkHttpClient();
             RequestBody body = new FormBody.Builder()
-                    .add("id", SharedPreferenceUtil.getOne(getContext(), GlobalVariable.FILE_NAME_USER_INFO, "id"))
+                    .add("id", SharedPreferenceUtil.getOne(getContext(), GlobalConstant.FILE_NAME_USER_INFO, "id"))
                     .add("start", leaveBean.getStart())
                     .add("end", leaveBean.getEnd())
                     .add("type", leaveBean.getType())
                     .add("remark", leaveBean.getRemark())
-                    .add("uuid", SharedPreferenceUtil.getOne(getContext(), GlobalVariable.FILE_NAME_USER_INFO, "uuid"))
+                    .add("uuid", SharedPreferenceUtil.getOne(getContext(), GlobalConstant.FILE_NAME_USER_INFO, "uuid"))
                     .build();
 
             final Request request = new Request.Builder()

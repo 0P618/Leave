@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.bean.LeaveBean;
-import com.goldenratio.leave.util.GlobalVariable;
+import com.goldenratio.leave.util.GlobalConstant;
 import com.goldenratio.leave.util.SharedPreferenceUtil;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class HistoryItemAdapter extends BaseAdapter {
         mContext = context;
         mLeaveList = list;
         mLayoutInflater = LayoutInflater.from(context);
-        name = SharedPreferenceUtil.getOne(context, GlobalVariable.FILE_NAME_USER_INFO, "name");
+        name = SharedPreferenceUtil.getOne(context, GlobalConstant.FILE_NAME_USER_INFO, "name");
 //        generateRandomColorList();
     }
 

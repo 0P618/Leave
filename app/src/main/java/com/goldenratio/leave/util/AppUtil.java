@@ -15,11 +15,11 @@ public class AppUtil {
     public static final String ROM_XIAOMI = "Xiaomi";
 
     public static String isLogin(Context context) {
-        String login_state = SharedPreferenceUtil.getOne(context, GlobalVariable.FILE_NAME_APP_CONFIG, "login_state");
+        String login_state = SharedPreferenceUtil.getOne(context, GlobalConstant.FILE_NAME_APP_CONFIG, "login_state");
         if (!login_state.equals("")) {
             String state = login_state.substring(0, 1);
             if (state.equals("1")) {
-                String id = SharedPreferenceUtil.getOne(context, GlobalVariable.FILE_NAME_USER_INFO, "id");
+                String id = SharedPreferenceUtil.getOne(context, GlobalConstant.FILE_NAME_USER_INFO, "id");
                 if (!id.equals("")) {
                     String idMD5 = MD5Util.createMD5(id);
                     if (idMD5.equals(login_state.substring(1))) {

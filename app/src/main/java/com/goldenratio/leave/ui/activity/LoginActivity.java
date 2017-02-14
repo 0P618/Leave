@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.util.GetDataUtil;
-import com.goldenratio.leave.util.GlobalVariable;
+import com.goldenratio.leave.util.GlobalConstant;
 import com.goldenratio.leave.util.MD5Util;
 import com.goldenratio.leave.util.SharedPreferenceUtil;
 import com.goldenratio.leave.util.StatusBarUtil;
@@ -59,7 +59,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
     }
 
     private void initData() {
-        String id = SharedPreferenceUtil.getOne(this, GlobalVariable.FILE_NAME_APP_CONFIG, "id");
+        String id = SharedPreferenceUtil.getOne(this, GlobalConstant.FILE_NAME_APP_CONFIG, "id");
         if (id != null) {
             mEtId.setText(id);
             // 下面代码没用，有空再试。
@@ -208,7 +208,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
                     ArrayList<String> loginSuccess = isLoginSuccess(obj);
                     if (loginSuccess.size() == 2) {
                         String s = loginSuccess.get(0);
-                        if (s.equals(GlobalVariable.CODE_LOGIN_SUCCESS)) {
+                        if (s.equals(GlobalConstant.CODE_LOGIN_SUCCESS)) {
                             saveUserInfo(obj);
                             finish();
                             progressDialog.dismiss();
@@ -262,8 +262,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
             ArrayList<String> strings1 = new ArrayList<>();
             strings1.add("1" + MD5Util.createMD5(id));
             strings1.add(arrayLists.get(1).get(0));
-            boolean b = SharedPreferenceUtil.putMultiple(this, GlobalVariable.FILE_NAME_APP_CONFIG, strings, strings1);
-            boolean user_info = SharedPreferenceUtil.putMultiple(LoginActivity.this, GlobalVariable.FILE_NAME_USER_INFO, arrayLists.get(0), arrayLists.get(1));
+            boolean b = SharedPreferenceUtil.putMultiple(this, GlobalConstant.FILE_NAME_APP_CONFIG, strings, strings1);
+            boolean user_info = SharedPreferenceUtil.putMultiple(LoginActivity.this, GlobalConstant.FILE_NAME_USER_INFO, arrayLists.get(0), arrayLists.get(1));
             if (b && user_info) {
                 Toast.makeText(this, "登陆成功！", Toast.LENGTH_SHORT).show();
                 setResult(RESULT_OK);
@@ -273,7 +273,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
             }
         } else {
             //不保持登陆
-            boolean user_info = SharedPreferenceUtil.putMultiple(LoginActivity.this, GlobalVariable.FILE_NAME_USER_INFO, arrayLists.get(0), arrayLists.get(1));
+            boolean user_info = SharedPreferenceUtil.putMultiple(LoginActivity.this, GlobalConstant.FILE_NAME_USER_INFO, arrayLists.get(0), arrayLists.get(1));
             if (user_info) {
                 Toast.makeText(this, "登陆成功~", Toast.LENGTH_SHORT).show();
             } else {

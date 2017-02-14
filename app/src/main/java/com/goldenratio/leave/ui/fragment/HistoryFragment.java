@@ -21,7 +21,7 @@ import com.goldenratio.leave.adapter.HistoryItemAdapter;
 import com.goldenratio.leave.bean.LeaveBean;
 import com.goldenratio.leave.util.AppUtil;
 import com.goldenratio.leave.util.GetDataUtil;
-import com.goldenratio.leave.util.GlobalVariable;
+import com.goldenratio.leave.util.GlobalConstant;
 import com.goldenratio.leave.util.SharedPreferenceUtil;
 
 import org.json.JSONArray;
@@ -131,7 +131,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
         TextView mTvRemark = (TextView) mRlIng.findViewById(R.id.tv_remark);
         TextView mTvCreated = (TextView) mRlIng.findViewById(R.id.tv_created);
 
-        mTvName.setText(SharedPreferenceUtil.getOne(getContext(), GlobalVariable.FILE_NAME_USER_INFO, "name"));
+        mTvName.setText(SharedPreferenceUtil.getOne(getContext(), GlobalConstant.FILE_NAME_USER_INFO, "name"));
         mTvTime.setText(bean.getStart() + " 至 " + bean.getEnd());
         mTvType.setText(bean.getType());
         mTvStatus.setText(bean.getStatus());
