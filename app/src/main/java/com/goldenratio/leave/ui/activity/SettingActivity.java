@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.util.AppUtil;
-import com.goldenratio.leave.util.GlobalVariable;
+import com.goldenratio.leave.util.GlobalConstant;
 import com.goldenratio.leave.util.SharedPreferenceUtil;
 import com.goldenratio.leave.util.StatusBarUtil;
 
@@ -27,6 +27,10 @@ public class SettingActivity extends Activity implements View.OnClickListener {
 
     private void initView() {
         findViewById(R.id.tv_exit).setOnClickListener(this);
+        findViewById(R.id.tv_clean).setOnClickListener(this);
+        findViewById(R.id.tv_update).setOnClickListener(this);
+        findViewById(R.id.tv_about).setOnClickListener(this);
+        findViewById(R.id.tv_share).setOnClickListener(this);
     }
 
     @Override
@@ -56,6 +60,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
 
     private void clearUserInfo() {
         SharedPreferenceUtil.putOne(SettingActivity.this, "app_config", "login_state", "");
-        getSharedPreferences(GlobalVariable.FILE_NAME_USER_INFO, MODE_PRIVATE).edit().clear().apply();
+        getSharedPreferences(GlobalConstant.FILE_NAME_USER_INFO, MODE_PRIVATE).edit().clear().apply();
     }
 }

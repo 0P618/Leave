@@ -22,18 +22,67 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/normal_space">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_space"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_exit"
+            android:id="@+id/tv_clean"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/default_fill_big"
-            android:gravity="center"
+            android:background="@drawable/my_set_selector"
+            android:drawableLeft="@drawable/ic_delete_sweep_black_24dp"
+            android:drawablePadding="@dimen/normal_space"
+            android:drawableRight="@mipmap/news_cate_arr"
+            android:gravity="center_vertical"
             android:padding="@dimen/normal_space"
-            android:text="退出登陆"
-            android:textColor="@android:color/white" />
+            android:text="清除缓存" />
+
+        <TextView
+            android:id="@+id/tv_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_set_selector"
+            android:drawableLeft="@drawable/ic_refresh_black_24dp"
+            android:drawablePadding="@dimen/normal_space"
+            android:drawableRight="@mipmap/news_cate_arr"
+            android:gravity="center_vertical"
+            android:padding="@dimen/normal_space"
+            android:text="版本更新" />
+
+        <TextView
+            android:id="@+id/tv_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_set_selector"
+            android:drawableLeft="@drawable/ic_loyalty_black_24dp"
+            android:drawablePadding="@dimen/normal_space"
+            android:drawableRight="@mipmap/news_cate_arr"
+            android:gravity="center_vertical"
+            android:padding="@dimen/normal_space"
+            android:text="关于我们" />
+
+        <TextView
+            android:id="@+id/tv_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_set_selector"
+            android:drawableLeft="@drawable/ic_share_black_24dp"
+            android:drawablePadding="@dimen/normal_space"
+            android:drawableRight="@mipmap/news_cate_arr"
+            android:gravity="center_vertical"
+            android:padding="@dimen/normal_space"
+            android:text="分享给好友" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/normal_space"
+        android:background="@drawable/default_fill_big"
+        android:gravity="center"
+        android:padding="@dimen/normal_space"
+        android:text="退出登陆"
+        android:textColor="@android:color/white" />
 </LinearLayout>
