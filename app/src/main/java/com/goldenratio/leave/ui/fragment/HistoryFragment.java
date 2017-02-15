@@ -85,36 +85,40 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
                         break;
                     case 1:
                         String jsonStr = msg.obj.toString();
-                        if (jsonStr != null) {
-                            List<LeaveBean> leaveBeenList = json2Bean(jsonStr);
-                            if (leaveBeenList != null) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(jsonStr);
+                            if (jsonObject.getString("code").equals("2001")) {
+                                List<LeaveBean> result = json2Bean(jsonObject.getString("result"));
+                                if (result != null) {
 //                            0审核失败
 //                            1审核成功
 //                            2正在审核
+                                    if (result.get(0).getStatus().equals("正在审核")) {
+                                        mRlIng.setVisibility(View.VISIBLE);
+                                        setContent(result.get(0));
+                                        result.remove(0);
+                                    } else {
+                                        mRlIng.setVisibility(View.GONE);
+                                    }
 
-                                if (leaveBeenList.get(0).getStatus().equals("正在审核")) {
-                                    mRlIng.setVisibility(View.VISIBLE);
-                                    setContent(leaveBeenList.get(0));
-                                    leaveBeenList.remove(0);
+                                    mTvTip.setVisibility(View.GONE);
+                                    historyItemAdapter = new HistoryItemAdapter(getContext(), result);
+                                    mLvHistory.setAdapter(historyItemAdapter);
                                 } else {
-                                    mRlIng.setVisibility(View.GONE);
+                                    mTvTip.setText("数据解析失败，请稍后再试！");
                                 }
-
-                                mTvTip.setVisibility(View.GONE);
-                                historyItemAdapter = new HistoryItemAdapter(getContext(), leaveBeenList);
-                                mLvHistory.setAdapter(historyItemAdapter);
                             } else {
-                                mTvTip.setText("数据解析失败，请稍后再试！");
-                                Toast.makeText(context, "数据解析失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                                mTvTip.setText(jsonObject.getString("msg"));
                             }
-                        } else {
-                            mTvTip.setText("数据获取失败！");
-                            Toast.makeText(context, "数据获取失败！", Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            mTvTip.setText(e.getMessage());
                         }
-
                         break;
                 }
-                if (progressDialog != null) {
+                if (progressDialog != null)
+
+                {
                     progressDialog.dismiss();
                 }
                 return false;

@@ -261,12 +261,11 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
             String url = webServiceIp + "NewRecord";
             OkHttpClient okHttpClient = new OkHttpClient();
             RequestBody body = new FormBody.Builder()
-                    .add("id", SharedPreferenceUtil.getOne(getContext(), GlobalConstant.FILE_NAME_USER_INFO, "id"))
                     .add("start", leaveBean.getStart())
                     .add("end", leaveBean.getEnd())
                     .add("type", leaveBean.getType())
                     .add("remark", leaveBean.getRemark())
-                    .add("uuid", SharedPreferenceUtil.getOne(getContext(), GlobalConstant.FILE_NAME_USER_INFO, "uuid"))
+                    .add("token", SharedPreferenceUtil.getOne(getContext(), GlobalConstant.FILE_NAME_USER_INFO, "token"))
                     .build();
 
             final Request request = new Request.Builder()
@@ -295,14 +294,23 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
                         getActivity().runOnUiThread(new TimerTask() {
                             @Override
                             public void run() {
-                                recStaus();
+//                                recStaus();
                                 //   mBtnSubmit.setEnabled(false);
                                 //   mBtnSubmit.setText("请耐心等待审核");
                                 Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {
-                        Toast.makeText(getContext(), response.body().string(), Toast.LENGTH_SHORT).show();
+                        getActivity().runOnUiThread(new TimerTask() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Toast.makeText(getContext(), response.body().string(), Toast.LENGTH_SHORT).show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                     }
                     closeProgressDialog();
                 }
@@ -315,12 +323,7 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
     private String parseNewRecordResult(String json) {
         try {
             JSONObject jsonObject = new JSONObject(json);
-            String code = jsonObject.getString("code");
-            if (code.equals("2001")) {
-                return "提交成功~";
-            } else {
-                return jsonObject.getString("remark");
-            }
+            return jsonObject.getString("msg");
         } catch (JSONException e) {
             e.printStackTrace();
             return e.getMessage();

@@ -205,21 +205,33 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
                 int what = msg.what;
                 String obj = msg.obj.toString();
                 if (what == 1) {
-                    ArrayList<String> loginSuccess = isLoginSuccess(obj);
-                    if (loginSuccess.size() == 2) {
-                        String s = loginSuccess.get(0);
-                        if (s.equals(GlobalConstant.CODE_LOGIN_SUCCESS)) {
-                            saveUserInfo(obj);
-                            finish();
-                            progressDialog.dismiss();
+                    try {
+                        JSONObject jsonObject = new JSONObject(obj);
+                        String code = jsonObject.getString("code");
+                        if (code.equals("1001")) {
+                            saveUserInfo(new JSONObject(jsonObject.getString("result")).toString());
                         } else {
-                            Toast.makeText(LoginActivity.this, loginSuccess.get(1), Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
+                            Toast.makeText(LoginActivity.this, jsonObject.getString("msg"), Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(LoginActivity.this, loginSuccess.get(0), Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+//                    ArrayList<String> loginSuccess = isLoginSuccess(obj);
+//                    if (loginSuccess.size() == 2) {
+//                        String s = loginSuccess.get(0);
+//                        if (s.equals(GlobalConstant.CODE_LOGIN_SUCCESS)) {
+//                            saveUserInfo(obj);
+//                            finish();
+//                            progressDialog.dismiss();
+//                        } else {
+//                            Toast.makeText(LoginActivity.this, loginSuccess.get(1), Toast.LENGTH_SHORT).show();
+//                            progressDialog.dismiss();
+//                        }
+//                    } else {
+//                        Toast.makeText(LoginActivity.this, loginSuccess.get(0), Toast.LENGTH_SHORT).show();
+//                        progressDialog.dismiss();
+//                    }
+
                 } else if (what == 0) {
                     Toast.makeText(LoginActivity.this, obj, Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
@@ -292,7 +304,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
         strings.add("avatar");
         strings.add("aClass");
         strings.add("autograph");
-        strings.add("uuid");
+        strings.add("token");
         arrayLists.add(strings);
         try {
             ArrayList<String> strings1 = new ArrayList<>();
@@ -304,7 +316,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Vie
             String avatar = jsonObject.getString("avatar");
             String aClass = jsonObject.getString("class");
             String autograph = jsonObject.getString("autograph");
-            String uuid = jsonObject.getString("uuid");
+            String uuid = jsonObject.getString("token");
             strings1.add(id);
             strings1.add(nickname);
             strings1.add(name);
