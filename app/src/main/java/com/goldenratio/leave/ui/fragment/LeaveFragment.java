@@ -342,9 +342,8 @@ public class LeaveFragment extends Fragment implements View.OnClickListener, Mai
     private void recStaus() {
         mTvType.setText(R.string.tv_select);
         mTvStartTime.setText(R.string.tv_select);
-        mTvStartTime.setText(R.string.tv_select);
         mTvEndTime.setText(R.string.tv_select);
-        mTvDaysNum.setText("");
+        mTvDaysNum.setText("0天0时0分");
         mEtWhy.setText("");
     }
 

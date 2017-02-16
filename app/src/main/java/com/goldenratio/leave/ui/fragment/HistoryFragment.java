@@ -1,13 +1,16 @@
 package com.goldenratio.leave.ui.fragment;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.adapter.HistoryItemAdapter;
 import com.goldenratio.leave.bean.LeaveBean;
+import com.goldenratio.leave.dao.RecordDao;
 import com.goldenratio.leave.util.AppUtil;
 import com.goldenratio.leave.util.GetDataUtil;
 import com.goldenratio.leave.util.GlobalConstant;
@@ -104,6 +108,19 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
                                     mTvTip.setVisibility(View.GONE);
                                     historyItemAdapter = new HistoryItemAdapter(getContext(), result);
                                     mLvHistory.setAdapter(historyItemAdapter);
+
+                                    String sql = "SELECT * FROM record";
+                                    int a = result.size();
+                                    int b = queryBySqlite(sql).getCount();
+                                    Log.i("lxt", "handleMessage: " + a + "----" + b);
+                                    if (a > b) {
+                                        List<LeaveBean> list = new ArrayList<>();
+                                        for (int i = 0; i < a - b; i++) {
+                                            list.add(result.get(i));
+                                        }
+                                        insert2Sqlite(list);
+                                        Log.i("lxt", "handleMessage: 存储本地数据" + jsonStr);
+                                    }
                                 } else {
                                     mTvTip.setText("数据解析失败，请稍后再试！");
                                 }
@@ -151,6 +168,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
             for (int i = 0; i < jsonArray.length(); i++) {
                 LeaveBean leaveBean = new LeaveBean();
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+                leaveBean.setId(jsonObject.getString("id"));
                 leaveBean.setStart(jsonObject.getString("start"));
                 leaveBean.setEnd(jsonObject.getString("end"));
                 leaveBean.setStatus(jsonObject.getString("status"));
@@ -169,7 +187,28 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void insert2Sqlite(List<LeaveBean> list) {
+        ContentValues values = new ContentValues();
+        RecordDao recordDao = new RecordDao(getActivity());
+        for (LeaveBean leaveBean : list) {
+            values.put("id", leaveBean.getId());
+            values.put("start", leaveBean.getStart());
+            values.put("end", leaveBean.getEnd());
+            values.put("remark", leaveBean.getRemark());
+            values.put("type", leaveBean.getType());
+            values.put("status", leaveBean.getStatus());
+            values.put("created", leaveBean.getCreated());
+            recordDao.insertAllData(values);
+            values.clear();
+        }
+    }
+
+    private Cursor queryBySqlite(String sql) {
+        return new RecordDao(getActivity()).queryData(sql, null);
+    }
+
     @Override
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_help:
