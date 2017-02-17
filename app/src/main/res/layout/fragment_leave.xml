@@ -94,14 +94,15 @@
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
                     android:drawableRight="@mipmap/news_cate_arr"
                     android:gravity="left"
                     android:text="开始时间"
                     android:textColor="#000"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:layout_alignBaseline="@+id/tv_start_time"
+                    android:layout_alignBottom="@+id/tv_start_time"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
             </RelativeLayout>
 

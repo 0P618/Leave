@@ -8,13 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.ui.activity.LoginActivity;
+import com.goldenratio.leave.ui.activity.PersonActivity;
 import com.goldenratio.leave.ui.activity.SettingActivity;
 import com.goldenratio.leave.util.AppUtil;
 import com.goldenratio.leave.util.GlobalConstant;
 import com.goldenratio.leave.util.SharedPreferenceUtil;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
 import static com.goldenratio.leave.util.AppUtil.APP_SETTING;
@@ -28,6 +32,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private TextView mTvLoginState;
+    private String id;
+    private CircleImageView mCivAvatar;
 
     @Nullable
     @Override
@@ -40,9 +46,10 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 
     private void initView() {
         mTvLoginState = (TextView) view.findViewById(R.id.tv_login_state);
+        mCivAvatar = (CircleImageView) view.findViewById(R.id.iv_avatar);
         mTvLoginState.setOnClickListener(this);
         view.findViewById(R.id.iv_setting).setOnClickListener(this);
-        view.findViewById(R.id.tv_data).setOnClickListener(this);
+        view.findViewById(R.id.tv_person).setOnClickListener(this);
         view.findViewById(R.id.tv_scan).setOnClickListener(this);
         view.findViewById(R.id.tv_encoder).setOnClickListener(this);
         view.findViewById(R.id.tv_change_pwd).setOnClickListener(this);
@@ -51,12 +58,13 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initUserInfo() {
-        String id = AppUtil.isLogin(getContext());
+        id = AppUtil.isLogin(getContext());
         if (id != null) {
             // 用户已登陆
             String name = SharedPreferenceUtil.getOne(getContext(), GlobalConstant.FILE_NAME_USER_INFO, "name");
             mTvLoginState.setText(name);
             mTvLoginState.setClickable(false);
+            String avatar = SharedPreferenceUtil.getOne(getContext(), GlobalConstant.FILE_NAME_USER_INFO, "avatar");
         }
     }
 
@@ -69,6 +77,13 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.iv_setting:
                 startActivityForResult(new Intent(getContext(), SettingActivity.class), APP_SETTING);
+                break;
+            case R.id.tv_person:
+                if (id != null) {
+                    startActivity(new Intent(getContext(), PersonActivity.class));
+                } else {
+                    Toast.makeText(getContext(), "请先登陆！", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

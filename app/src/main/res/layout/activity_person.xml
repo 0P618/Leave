@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0EFF5"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/normal_space"
+            android:text="个人资料"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/normal_space"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingLeft="@dimen/normal_space"
+        android:paddingRight="@dimen/normal_space"
+        android:paddingTop="20dp">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/default_avatar"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="2dp" />
+
+            <!--<TextView-->
+            <!--android:id="@+id/tv_name"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="@dimen/normal_space"-->
+            <!--android:background="@drawable/default_fill_little"-->
+            <!--android:paddingBottom="@dimen/little_space"-->
+            <!--android:paddingLeft="@dimen/normal_space"-->
+            <!--android:paddingRight="@dimen/normal_space"-->
+            <!--android:paddingTop="@dimen/little_space"-->
+            <!--android:text="张庆宝"-->
+            <!--android:textColor="@android:color/white" />-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1513640218" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/little_space"
+                android:text="张庆宝" />
+
+            <TextView
+                android:id="@+id/tv_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/little_space"
+                android:text="15软件开发方向一班" />
+
+            <TextView
+                android:id="@+id/tv_department"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/little_space"
+                android:text="信息与艺术设计系" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1">
+
+                <TableRow android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/normal_space"
+                        android:text="昵称" />
+
+                    <TextView
+                        android:id="@+id/tv_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/news_cate_arr"
+                        android:padding="@dimen/normal_space"
+                        android:text="Kiuber" />
+                </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/normal_bg_color" />
+
+                <TableRow android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/normal_space"
+                        android:text="个签" />
+
+                    <TextView
+                        android:id="@+id/tv_autograph"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/news_cate_arr"
+                        android:padding="@dimen/normal_space"
+                        android:text="这家伙很懒" />
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_marginTop="@dimen/normal_space"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/normal_space"
+                        android:text="性别" />
+
+                    <TextView
+                        android:id="@+id/tv_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/news_cate_arr"
+                        android:padding="@dimen/normal_space"
+                        android:text="男" />
+                </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/normal_bg_color" />
+
+                <TableRow android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/normal_space"
+                        android:text="生日" />
+
+                    <TextView
+                        android:id="@+id/tv_birthday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/news_cate_arr"
+                        android:padding="@dimen/normal_space"
+                        android:text="1997-01-06" />
+                </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/normal_bg_color" />
+
+                <TableRow android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/normal_space"
+                        android:text="家乡" />
+
+                    <TextView
+                        android:id="@+id/tv_hometown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/news_cate_arr"
+                        android:padding="@dimen/normal_space"
+                        android:text="山东省泰安市新泰市" />
+                </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/normal_bg_color" />
+
+                <TableRow android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/normal_space"
+                        android:text="毕业高中" />
+
+                    <TextView
+                        android:id="@+id/tv_high_school"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/news_cate_arr"
+                        android:padding="@dimen/normal_space"
+                        android:text="新泰一中" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="@dimen/normal_space"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/normal_space"
+                        android:text="手机" />
+
+                    <TextView
+                        android:id="@+id/tv_tel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/news_cate_arr"
+                        android:padding="@dimen/normal_space"
+                        android:text="18454837733" />
+                </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/normal_bg_color" />
+
+                <TableRow android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/normal_space"
+                        android:text="邮箱" />
+
+                    <TextView
+                        android:id="@+id/tv_mail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/news_cate_arr"
+                        android:padding="@dimen/normal_space"
+                        android:text="Kiuber.Zhang@gmail.com" />
+                </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/normal_bg_color" />
+
+                <TableRow android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/normal_space"
+                        android:text="QQ" />
+
+                    <TextView
+                        android:id="@+id/tv_qq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/news_cate_arr"
+                        android:padding="@dimen/normal_space"
+                        android:text="582279412" />
+                </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/normal_bg_color" />
+
+                <TableRow android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/normal_space"
+                        android:text="微信" />
+
+                    <TextView
+                        android:id="@+id/tv_wechat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/news_cate_arr"
+                        android:padding="@dimen/normal_space"
+                        android:text="qb19970106" />
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/tv_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/normal_space"
+                android:background="@drawable/default_fill_little"
+                android:gravity="center"
+                android:padding="@dimen/normal_space"
+                android:text="保存修改"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
