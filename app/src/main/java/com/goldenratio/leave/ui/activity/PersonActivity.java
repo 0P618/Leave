@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.bumptech.glide.Glide;
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.util.GlobalConstant;
 import com.goldenratio.leave.util.SharedPreferenceUtil;
@@ -20,6 +21,8 @@ import com.goldenratio.leave.util.StatusBarUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by kiuber on 2017/2/16 0016.
@@ -41,6 +44,7 @@ public class PersonActivity extends Activity implements View.OnClickListener {
     private TextView mTvName;
     private TextView mTvClass;
     private TextView mTvDepartment;
+    private CircleImageView mCivAvatar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +88,11 @@ public class PersonActivity extends Activity implements View.OnClickListener {
         mTvName.setText(multiple.get(11));
         mTvClass.setText(multiple.get(12));
         mTvDepartment.setText(multiple.get(13));
+
+        String avatar = SharedPreferenceUtil.getOne(this, GlobalConstant.FILE_NAME_USER_INFO, "avatar");
+        if (!avatar.equals("")) {
+            Glide.with(this).load(avatar).into(mCivAvatar);
+        }
     }
 
     private void initView() {
@@ -102,6 +111,7 @@ public class PersonActivity extends Activity implements View.OnClickListener {
         mTvName = (TextView) findViewById(R.id.tv_name);
         mTvClass = (TextView) findViewById(R.id.tv_class);
         mTvDepartment = (TextView) findViewById(R.id.tv_department);
+        mCivAvatar = (CircleImageView) findViewById(R.id.iv_avatar);
 
         mTvNickname.setOnClickListener(this);
         mTvAutograph.setOnClickListener(this);

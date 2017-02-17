@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.goldenratio.leave.R;
 import com.goldenratio.leave.ui.activity.LoginActivity;
 import com.goldenratio.leave.ui.activity.PersonActivity;
@@ -65,9 +66,11 @@ public class MyFragment extends Fragment implements View.OnClickListener {
             mTvLoginState.setText(name);
             mTvLoginState.setClickable(false);
             String avatar = SharedPreferenceUtil.getOne(getContext(), GlobalConstant.FILE_NAME_USER_INFO, "avatar");
+            if (!avatar.equals("")) {
+                Glide.with(getContext()).load(avatar).into(mCivAvatar);
+            }
         }
     }
-
 
     @Override
     public void onClick(View v) {
